@@ -1,7 +1,7 @@
 /* eslint-disable security/detect-non-literal-fs-filename */
 import { readFile } from 'node:fs/promises'
 import type { SchemaFileRead } from '@interfaces/ToolSchema'
-import { getSafePath } from '@core/security/index'
+import { getSafePath, validateFileSize } from '@core/security/index'
 
 /**
  * Handles file reading operations with security validation.
@@ -35,6 +35,10 @@ export default class FileRead {
       const safePath: string | null = getSafePath(this.filePath)
       if (safePath === null) {
         return `Error! Invalid file path: ${this.filePath}.`
+      }
+      const isSizeValid: boolean = await validateFileSize(safePath)
+      if (!isSizeValid) {
+        return `Error! File too large: ${this.filePath}. Maximum file size is 1MB.`
       }
       const content: string = await readFile(safePath, 'utf8')
       if (content.length === 0) {

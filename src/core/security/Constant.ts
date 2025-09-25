@@ -1,0 +1,160 @@
+/**
+ * Blacklisted file patterns that should never be accessed.
+ * @description Files that contain sensitive information or system files.
+ */
+export const blacklistedFiles: string[] = [
+  '.env',
+  '.envrc',
+  'package-lock.json',
+  'yarn.lock',
+  'pnpm-lock.yaml',
+  '.git/config',
+  '.git/HEAD',
+  '.git/hooks/',
+  '.git/objects/',
+  'node_modules/.bin/',
+  'node_modules/.cache/'
+]
+
+/**
+ * Blacklisted directory patterns that should never be accessed.
+ * @description Directories that contain sensitive information or system directories.
+ */
+export const blacklistedDir: string[] = [
+  'system',
+  'sys',
+  'proc',
+  'dev',
+  'etc',
+  'var',
+  'usr',
+  'bin',
+  'sbin',
+  'lib',
+  'lib64',
+  'opt',
+  'home',
+  'root',
+  'tmp',
+  'temp',
+  'Windows',
+  'Program Files',
+  'Program Files (x86)',
+  'System32',
+  'SysWOW64',
+  'AppData',
+  'LocalAppData',
+  'Documents and Settings',
+  'Applications',
+  'Library',
+  'System',
+  'Users',
+  'Volumes',
+  'private',
+  'boot',
+  'cdrom',
+  'media',
+  'mnt',
+  'run',
+  'srv',
+  'lost+found',
+  '.git',
+  '.ssh',
+  '.gnupg',
+  '.aws',
+  '.docker',
+  '.kube',
+  'node_modules',
+  '.npm',
+  '.yarn',
+  '.pnpm'
+]
+
+/**
+ * Dangerous file extensions that should be blocked.
+ * @description File extensions that could contain sensitive or executable content.
+ */
+export const blacklistedExt: string[] = [
+  '.exe',
+  '.bat',
+  '.cmd',
+  '.com',
+  '.scr',
+  '.pif',
+  '.msi',
+  '.dmg',
+  '.pkg',
+  '.deb',
+  '.rpm',
+  '.app',
+  '.appx',
+  '.msix',
+  '.bin',
+  '.so',
+  '.dll',
+  '.dylib',
+  '.a',
+  '.lib',
+  '.o',
+  '.obj'
+]
+
+/**
+ * Regex patterns for dangerous paths.
+ * @description Patterns that match potentially dangerous path structures.
+ */
+export const dangerousPatterns: RegExp[] = [
+  /\.\./,
+  /\.\.\/\.\./,
+  /\.\.\\\.\./,
+  /\.\.\/\.\.\/\.\./,
+  /\.\.\\\.\.\\\.\./,
+  /^\./,
+  /\/\./,
+  /\\\./,
+  /^[A-Za-z]:[\\/]/,
+  /^\/[A-Za-z]:/,
+  /^\/[A-Za-z]:[\\/]/,
+  /\.env/,
+  /\.envrc/,
+  /\.secret/,
+  /secrets\.json$/,
+  /credentials\.json$/,
+  /auth\.json$/,
+  /\.key$/,
+  /id_[a-z0-9]+$/,
+  /known_hosts$/,
+  /authorized_keys$/,
+  /\.pem$/,
+  /\.crt$/,
+  /certificate\./,
+  /ssl\./,
+  /\.p12$/,
+  /\.pfx$/,
+  /\.jks$/,
+  /\.db$/,
+  /\.sqlite$/,
+  /\.sqlite3$/,
+  /\.mdb$/,
+  /\.accdb$/,
+  /\.frm$/,
+  /\.myd$/,
+  /\.myi$/,
+  /\.sql$/,
+  /\.dump$/,
+  /\.backup$/,
+  /\.db3$/,
+  /\.s3db$/,
+  /\.sl3$/,
+  /\.wal$/,
+  /\.journal$/,
+  /\.db-journal$/,
+  /\.db-wal$/,
+  /\.db-shm$/,
+  /\.exe$/,
+  /\.bat$/,
+  /\.cmd$/,
+  /\.jar$/,
+  /\.war$/,
+  /\.ear$/
+]
