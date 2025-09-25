@@ -10,8 +10,27 @@ import allToolSchemas from '@schemas/index'
  * @returns void
  */
 async function testOllamaIntegration(): Promise<void> {
+  let ollama: OllamaService
+  process.on('SIGINT', () => {
+    if (ollama?.isActive) {
+      ollama.abort()
+    }
+    process.exit(0)
+  })
+  process.on('SIGTERM', () => {
+    if (ollama?.isActive) {
+      ollama.abort()
+    }
+    process.exit(0)
+  })
+  process.on('SIGHUP', () => {
+    if (ollama?.isActive) {
+      ollama.abort()
+    }
+    process.exit(0)
+  })
   try {
-    const ollama: OllamaService = new OllamaService({
+    ollama = new OllamaService({
       host: 'https://ollama.com',
       timeout: 60000 * 5,
       retries: 3,
@@ -28,9 +47,16 @@ async function testOllamaIntegration(): Promise<void> {
       model: 'qwen3-coder:480b',
       messages: [
         {
+          role: 'system',
+          content:
+            'You are a helpful code editor. Complete the requested task efficiently and stop when done. Do not make excessive tool calls.'
+        },
+        {
           role: 'user',
           content:
-            'Create a Python project with multiple files:\n1) A factorial function\n2) A fibonacci function\n3) A main.py that imports and tests both functions\n4) A README.md explaining how to use the project'
+            'I need you to edit the Calculator.ts file step by step. The file is located at "examples/Calculator.ts".\n\n' +
+            '1. Read the current file to understand its structure\n' +
+            '2. Remove all jsdocs on each method'
         }
       ],
       stream: false
@@ -46,9 +72,12 @@ async function testOllamaIntegration(): Promise<void> {
     })
     llmOrchestrator.on('toolRequested', (data: ToolRequestedEvent) => {
       console.log('🔧 Tool Requested:', data.toolName)
+      console.log('📋 Tool Arguments:', JSON.stringify(data.arguments, null, 2))
     })
     llmOrchestrator.on('toolResponse', (data: ToolResponseEvent) => {
       console.log('⚡ Tool Response:', data.toolName)
+      console.log(JSON.stringify(data, null, 2))
+      console.log('---')
     })
     await llmOrchestrator.chat(llmSession, llmRequest)
     console.log('✅ Test completed successfully!')

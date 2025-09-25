@@ -1,6 +1,7 @@
-import type { SchemaFileEdit, SchemaCodeEdit } from '@root/interfaces/index'
-import CodeEdit from '@core/base/CodeEdit'
+import type { SchemaFileEdit, SchemaFileRead, SchemaFileCreate } from '@root/interfaces/index'
 import FileEdit from '@core/base/FileEdit'
+import FileRead from '@core/base/FileRead'
+import FileCreate from '@core/base/FileCreate'
 
 /**
  * Executes tool operations based on tool name and arguments.
@@ -14,12 +15,14 @@ export class ToolExecutor {
    * @param args - The arguments to pass to the tool
    * @returns Result string from tool execution or error message for unknown tools
    */
-  execute(toolName: string, args: unknown): string {
+  async execute(toolName: string, args: unknown): Promise<string> {
     switch (toolName) {
       case 'FileEdit':
         return new FileEdit(args as SchemaFileEdit).execute()
-      case 'CodeEdit':
-        return new CodeEdit(args as SchemaCodeEdit).execute()
+      case 'FileRead':
+        return new FileRead(args as SchemaFileRead).execute()
+      case 'FileCreate':
+        return new FileCreate(args as SchemaFileCreate).execute()
       default:
         return `Unknown tool: ${toolName}`
     }

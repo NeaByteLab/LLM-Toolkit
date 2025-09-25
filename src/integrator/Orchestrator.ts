@@ -106,7 +106,7 @@ export class Orchestrator extends EventEmitter {
       const response: ResponseChat | ResponseChatStream = (await this.client.chat(
         enhancedRequest
       )) as ResponseChat | ResponseChatStream
-      this.processResponse(sessionId, response)
+      await this.processResponse(sessionId, response)
       hasToolCalls =
         response.message?.tool_calls !== undefined && response.message.tool_calls.length > 0
     }
@@ -118,12 +118,15 @@ export class Orchestrator extends EventEmitter {
    * @param sessionId - The session ID to process the response for
    * @param response - The chat response to process
    */
-  private processResponse(sessionId: string, response: ResponseChat | ResponseChatStream): void {
+  private async processResponse(
+    sessionId: string,
+    response: ResponseChat | ResponseChatStream
+  ): Promise<void> {
     if ('message' in response && response.message != null) {
       this.chatManager.addMessage(sessionId, response.message)
       this.emit('message', response.message)
       if (response.message.tool_calls !== undefined && response.message.tool_calls.length > 0) {
-        this.handleToolCalls(sessionId, response.message.tool_calls)
+        await this.handleToolCalls(sessionId, response.message.tool_calls)
       }
     }
     if (response.thinking !== undefined && response.thinking.length > 0) {
@@ -137,7 +140,7 @@ export class Orchestrator extends EventEmitter {
    * @param sessionId - The session ID to add tool responses to
    * @param toolCalls - Array of tool calls to execute
    */
-  private handleToolCalls(sessionId: string, toolCalls: unknown[]): void {
+  private async handleToolCalls(sessionId: string, toolCalls: unknown[]): Promise<void> {
     for (const toolCall of toolCalls) {
       const toolCallObj: { function?: { name?: string; arguments?: Record<string, unknown> } } =
         toolCall as {
@@ -150,7 +153,7 @@ export class Orchestrator extends EventEmitter {
         arguments: toolArguments
       }
       this.emit('toolRequested', toolRequestedEvent)
-      const result: string = this.toolExecutor.execute(toolName, toolArguments)
+      const result: string = await this.toolExecutor.execute(toolName, toolArguments)
       const toolResponseEvent: ToolResponseEvent = {
         toolName,
         arguments: toolArguments,

@@ -1,14 +1,14 @@
 /**
- * Schema for code edit operations.
- * @description Defines the structure for code editing tool parameters.
+ * Schema for file creation operations.
+ * @description Defines the structure for file creation tool parameters.
  */
-export interface SchemaCodeEdit {
-  /** The file path where the edit will be applied */
+export interface SchemaFileCreate {
+  /** The file path where the new file will be created */
   filePath: string
-  /** The text to be replaced in the file */
-  oldString: string
-  /** The new text to replace the old string */
-  newString: string
+  /** The content to write to the new file */
+  content: string
+  /** Instructions describing the file creation operation */
+  instructions: string
 }
 
 /**
@@ -18,8 +18,17 @@ export interface SchemaCodeEdit {
 export interface SchemaFileEdit {
   /** The file path where the edit will be applied */
   filePath: string
-  /** The new content to replace the file content */
-  content: string
-  /** Instructions describing the edit operation */
-  instructions: string
+  /** The text to be replaced in the file */
+  oldString: string
+  /** The new text to replace the old string */
+  newString: string
+}
+
+/**
+ * Schema for file read operations.
+ * @description Defines the structure for file reading tool parameters.
+ */
+export interface SchemaFileRead {
+  /** The file path to read */
+  filePath: string
 }
