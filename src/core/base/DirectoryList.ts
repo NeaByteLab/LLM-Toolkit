@@ -1,7 +1,7 @@
 /* eslint-disable security/detect-non-literal-fs-filename */
 import type { Stats } from 'node:fs'
 import { readdir, stat } from 'node:fs/promises'
-import type { SchemaDirectoryList } from '@interfaces/ToolSchema'
+import type { SchemaDirectoryList, SecurityPathResult } from '@interfaces/index'
 import { getSafePath } from '@core/security/index'
 
 /**
@@ -33,15 +33,15 @@ export default class DirectoryList {
       return resValidate
     }
     try {
-      const safePath: string | null = getSafePath(this.directoryPath)
-      if (safePath === null) {
-        return `Error! Invalid directory path: ${this.directoryPath}.`
+      const safePath: SecurityPathResult = getSafePath(this.directoryPath)
+      if (!safePath.success) {
+        return `Error! Invalid directory path: ${safePath.message}`
       }
-      const contents: string[] = await readdir(safePath)
+      const contents: string[] = await readdir(safePath.path)
       if (contents.length === 0) {
         return `Directory ${this.directoryPath} is empty.`
       }
-      return await this.formatContents(safePath, contents)
+      return await this.formatContents(safePath.path, contents)
     } catch (error) {
       if (error instanceof Error && 'code' in error && error.code === 'ENOENT') {
         return `Error! Directory not found: ${this.directoryPath}.`

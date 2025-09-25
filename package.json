@@ -67,6 +67,7 @@
   },
   "dependencies": {
     "@neabyte/ollama-native": "^0.2.0",
-    "dotenv": "^17.2.2"
+    "dotenv": "^17.2.2",
+    "fast-glob": "^3.3.3"
   }
 }

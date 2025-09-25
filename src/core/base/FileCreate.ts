@@ -1,6 +1,6 @@
 /* eslint-disable security/detect-non-literal-fs-filename */
 import { createWriteStream, type WriteStream, existsSync } from 'node:fs'
-import type { SchemaFileCreate } from '@interfaces/ToolSchema'
+import type { SchemaFileCreate, SecurityPathResult } from '@interfaces/index'
 import { getSafePath } from '@core/security/index'
 
 /**
@@ -38,11 +38,11 @@ export default class FileCreate {
       return resValidate
     }
     try {
-      const safePath: string | null = getSafePath(this.filePath)
-      if (safePath === null) {
-        return `Error! Invalid file path: ${this.filePath}.`
+      const safePath: SecurityPathResult = getSafePath(this.filePath)
+      if (!safePath.success) {
+        return `Error! Invalid file path: ${safePath.message}`
       }
-      if (existsSync(safePath)) {
+      if (existsSync(safePath.path)) {
         return `Error! File already exists: ${this.filePath}. Use FileEdit tool to modify existing files.`
       }
       if (this.content.length === 0) {
@@ -50,7 +50,7 @@ export default class FileCreate {
       }
       return await new Promise<string>(
         (resolve: (value: string) => void, reject: (reason?: Error) => void) => {
-          const writeStream: WriteStream = createWriteStream(safePath, { flags: 'w' })
+          const writeStream: WriteStream = createWriteStream(safePath.path, { flags: 'w' })
           writeStream.write(this.content, 'utf8')
           writeStream.end()
           writeStream.on('finish', () => {

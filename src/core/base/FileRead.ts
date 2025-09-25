@@ -1,6 +1,6 @@
 /* eslint-disable security/detect-non-literal-fs-filename */
 import { readFile } from 'node:fs/promises'
-import type { SchemaFileRead } from '@interfaces/ToolSchema'
+import type { SchemaFileRead, SecurityPathResult } from '@interfaces/index'
 import { getSafePath, validateFileSize } from '@core/security/index'
 
 /**
@@ -32,23 +32,25 @@ export default class FileRead {
       return resValidate
     }
     try {
-      const safePath: string | null = getSafePath(this.filePath)
-      if (safePath === null) {
-        return `Error! Invalid file path: ${this.filePath}.`
+      const safePath: SecurityPathResult = getSafePath(this.filePath)
+      if (!safePath.success) {
+        return `Error! Invalid file path: ${safePath.message}`
       }
-      const isSizeValid: boolean = await validateFileSize(safePath)
-      if (!isSizeValid) {
+      const sizeValidation: { valid: boolean; exists: boolean } = await validateFileSize(
+        safePath.path
+      )
+      if (sizeValidation.exists === false) {
+        return `Error! File not found: ${this.filePath}.`
+      }
+      if (sizeValidation.valid === false) {
         return `Error! File too large: ${this.filePath}. Maximum file size is 1MB.`
       }
-      const content: string = await readFile(safePath, 'utf8')
+      const content: string = await readFile(safePath.path, 'utf8')
       if (content.length === 0) {
         return `Error! File is empty: ${this.filePath}.`
       }
       return content
     } catch (error) {
-      if (error instanceof Error && 'code' in error && error.code === 'ENOENT') {
-        return `Error! File not found: ${this.filePath}.`
-      }
       return `Error! Reading file ${this.filePath}: ${error instanceof Error ? error.message : 'Unknown error'}.`
     }
   }

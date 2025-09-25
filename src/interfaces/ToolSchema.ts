@@ -21,6 +21,15 @@ export interface SchemaFileCreate {
 }
 
 /**
+ * Schema for file deletion operations.
+ * @description Defines the structure for file deletion tool parameters.
+ */
+export interface SchemaFileDelete {
+  /** The file path to delete */
+  filePath: string
+}
+
+/**
  * Schema for file edit operations.
  * @description Defines the structure for file editing tool parameters.
  */
@@ -43,12 +52,22 @@ export interface SchemaFileRead {
 }
 
 /**
- * Schema for file deletion operations.
- * @description Defines the structure for file deletion tool parameters.
+ * Schema for glob pattern file search operations.
+ * @description Defines the structure for glob pattern file search tool parameters.
  */
-export interface SchemaFileDelete {
-  /** The file path to delete */
-  filePath: string
+export interface SchemaGlobSearch {
+  /** Array of glob patterns to search for */
+  patterns: string[]
+  /** The working directory to search from */
+  workingDir?: string
+  /** Whether pattern matching should be case-sensitive */
+  caseSensitive?: boolean
+  /** Whether to return only files */
+  onlyFiles?: boolean
+  /** Whether to return only directories */
+  onlyDirectories?: boolean
+  /** Maximum depth to search (0-20) */
+  maxDepth?: number
 }
 
 /**

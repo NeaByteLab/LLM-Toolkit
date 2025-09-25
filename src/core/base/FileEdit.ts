@@ -1,7 +1,7 @@
 /* eslint-disable security/detect-non-literal-fs-filename */
 import { readFile } from 'node:fs/promises'
 import { existsSync, createWriteStream, type WriteStream } from 'node:fs'
-import type { SchemaFileEdit } from '@interfaces/ToolSchema'
+import type { SchemaFileEdit, SecurityPathResult } from '@interfaces/index'
 import { getSafePath } from '@core/security/index'
 
 /**
@@ -39,14 +39,14 @@ export default class FileEdit {
       return resValidate
     }
     try {
-      const safePath: string | null = getSafePath(this.filePath)
-      if (safePath === null) {
-        return `Error! Invalid file path: ${this.filePath}.`
+      const safePath: SecurityPathResult = getSafePath(this.filePath)
+      if (!safePath.success) {
+        return `Error! Invalid file path: ${safePath.message}`
       }
-      if (!existsSync(safePath)) {
+      if (!existsSync(safePath.path)) {
         return `Error! File not found: ${this.filePath}.`
       }
-      const fileContent: string = await readFile(safePath, 'utf8')
+      const fileContent: string = await readFile(safePath.path, 'utf8')
       if (fileContent.length === 0) {
         return `Error! File is empty: ${this.filePath}.`
       }
@@ -57,7 +57,7 @@ export default class FileEdit {
       }
       return await new Promise<string>(
         (resolve: (value: string) => void, reject: (reason?: Error) => void) => {
-          const writeStream: WriteStream = createWriteStream(safePath, { flags: 'w' })
+          const writeStream: WriteStream = createWriteStream(safePath.path, { flags: 'w' })
           writeStream.write(result.newContent ?? '', 'utf8')
           writeStream.end()
           writeStream.on('finish', () => {

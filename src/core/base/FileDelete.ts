@@ -1,6 +1,6 @@
 /* eslint-disable security/detect-non-literal-fs-filename */
 import { unlink } from 'node:fs/promises'
-import type { SchemaFileDelete } from '@interfaces/ToolSchema'
+import type { SchemaFileDelete, SecurityPathResult } from '@interfaces/index'
 import { getSafePath } from '@core/security/index'
 
 /**
@@ -32,11 +32,11 @@ export default class FileDelete {
       return resValidate
     }
     try {
-      const safePath: string | null = getSafePath(this.filePath)
-      if (safePath === null) {
-        return `Error! Invalid file path: ${this.filePath}.`
+      const safePath: SecurityPathResult = getSafePath(this.filePath)
+      if (!safePath.success) {
+        return `Error! Invalid file path: ${safePath.message}`
       }
-      await unlink(safePath)
+      await unlink(safePath.path)
       return `File deleted successfully: ${this.filePath}.`
     } catch (error) {
       if (error instanceof Error && 'code' in error && error.code === 'ENOENT') {

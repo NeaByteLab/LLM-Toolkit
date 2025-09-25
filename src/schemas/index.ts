@@ -4,6 +4,7 @@ import FileCreate from '@schemas/FileCreate'
 import FileDelete from '@schemas/FileDelete'
 import FileEdit from '@schemas/FileEdit'
 import FileRead from '@schemas/FileRead'
+import GlobSearch from '@schemas/GlobSearch'
 import TerminalCmd from '@schemas/TerminalCmd'
 
 /**
@@ -16,5 +17,6 @@ export default [
   FileDelete as ToolCall,
   FileEdit as ToolCall,
   FileRead as ToolCall,
+  GlobSearch as ToolCall,
   TerminalCmd as ToolCall
 ]

@@ -1,8 +1,7 @@
 import { exec } from 'node:child_process'
 import { promisify } from 'node:util'
-import type { SchemaTerminalCmd } from '@interfaces/ToolSchema'
+import type { SchemaTerminalCmd, SecurityPathResult } from '@interfaces/index'
 import { getSafePath } from '@core/security/index'
-import { dangerousCommands } from '@core/security/Constant'
 
 /**
  * Promisified exec function for executing commands asynchronously.
@@ -52,14 +51,10 @@ export default class TerminalCmd {
     }
     try {
       if (this.workingDir !== undefined) {
-        const validatedWorkingDir: string | null = getSafePath(this.workingDir)
-        if (validatedWorkingDir === null) {
-          return `Error! Invalid working directory: ${this.workingDir}.`
+        const validatedWorkingDir: SecurityPathResult = getSafePath(this.workingDir)
+        if (!validatedWorkingDir.success) {
+          return `Error! Invalid working directory: ${validatedWorkingDir.message}`
         }
-      }
-      const commandValidation: string = this.validateCommand()
-      if (commandValidation !== 'ok') {
-        return commandValidation
       }
       const startTime: number = Date.now()
       const result: string = await this.runCommand(this.workingDir ?? process.cwd())
@@ -102,35 +97,6 @@ export default class TerminalCmd {
         (execError.stderr != null ? `\nSTDERR:\n${execError.stderr}` : '')
       return `Exit code: ${execError.code ?? 1}\nOutput:\n${output}`
     }
-  }
-
-  /**
-   * Validates the command for security.
-   * @description Checks if the command is safe to execute.
-   * @returns 'ok' if command is safe, error message if dangerous
-   */
-  private validateCommand(): string {
-    const lowerCommand: string = this.command.toLowerCase()
-    for (const dangerous of dangerousCommands) {
-      if (dangerous === undefined) {
-        continue
-      }
-      if (lowerCommand.includes(dangerous)) {
-        return `Error! Dangerous command blocked: ${dangerous}`
-      }
-    }
-    if (this.command.includes('..') || this.command.includes('~')) {
-      return 'Error! Command contains path traversal patterns.'
-    }
-    if (this.command.includes('/') && !this.command.startsWith('./')) {
-      const parts: string[] = this.command.split(' ')
-      for (const part of parts) {
-        if (part.startsWith('/') && !part.startsWith(process.cwd())) {
-          return 'Error! Command contains absolute paths outside project directory.'
-        }
-      }
-    }
-    return 'ok'
   }
 
   /**
