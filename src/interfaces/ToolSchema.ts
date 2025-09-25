@@ -41,3 +41,25 @@ export interface SchemaFileRead {
   /** The file path to read */
   filePath: string
 }
+
+/**
+ * Schema for file deletion operations.
+ * @description Defines the structure for file deletion tool parameters.
+ */
+export interface SchemaFileDelete {
+  /** The file path to delete */
+  filePath: string
+}
+
+/**
+ * Schema for terminal command execution operations.
+ * @description Defines the structure for terminal command execution tool parameters.
+ */
+export interface SchemaTerminalCmd {
+  /** The terminal command to execute */
+  command: string
+  /** The working directory for command execution */
+  workingDir?: string
+  /** Timeout for command execution in milliseconds (30000-300000) */
+  timeout?: number
+}

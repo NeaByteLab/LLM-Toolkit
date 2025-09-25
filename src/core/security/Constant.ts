@@ -1,4 +1,29 @@
 /**
+ * Dangerous terminal commands that should be blocked.
+ * @description Commands that pose security risks or can cause system damage.
+ */
+export const dangerousCommands: string[] = [
+  'rm -rf',
+  'sudo',
+  'chmod',
+  'passwd',
+  'shutdown',
+  'reboot',
+  'dd',
+  'mkfs',
+  'fdisk',
+  'iptables',
+  'systemctl',
+  'crontab',
+  'killall',
+  'pkill',
+  'kill -9',
+  'nohup',
+  'screen',
+  'tmux'
+]
+
+/**
  * Blacklisted file patterns that should never be accessed.
  * @description Files that contain sensitive information or system files.
  */
