@@ -1,4 +1,13 @@
 /**
+ * Schema for directory listing operations.
+ * @description Defines the structure for directory listing tool parameters.
+ */
+export interface SchemaDirectoryList {
+  /** The directory path to list */
+  directoryPath: string
+}
+
+/**
  * Schema for file creation operations.
  * @description Defines the structure for file creation tool parameters.
  */

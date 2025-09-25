@@ -1,7 +1,7 @@
 /* eslint-disable security/detect-non-literal-fs-filename */
 import { createWriteStream, type WriteStream, existsSync } from 'node:fs'
-import { resolve, normalize, isAbsolute } from 'node:path'
 import type { SchemaFileCreate } from '@interfaces/ToolSchema'
+import { getSafePath } from '@core/security/index'
 
 /**
  * Handles file creation operations with content writing functionality.
@@ -38,7 +38,7 @@ export default class FileCreate {
       return resValidate
     }
     try {
-      const safePath: string | null = this.getSafePath()
+      const safePath: string | null = getSafePath(this.filePath)
       if (safePath === null) {
         return `Error! Invalid file path: ${this.filePath}.`
       }
@@ -64,27 +64,6 @@ export default class FileCreate {
     } catch (error) {
       return `Error! Creating file ${this.filePath}: ${error instanceof Error ? error.message : 'Unknown error'}.`
     }
-  }
-
-  /**
-   * Gets a safe file path for creation operations.
-   * @description Validates and normalizes the file path for security.
-   * @returns Safe file path or null if invalid
-   */
-  private getSafePath(): string | null {
-    if (isAbsolute(this.filePath)) {
-      return null
-    }
-    const normalizedPath: string = normalize(this.filePath)
-    const resolvedPath: string = resolve(process.cwd(), normalizedPath)
-    if (resolvedPath.includes('..') || resolvedPath.includes('~')) {
-      return null
-    }
-    const cwd: string = process.cwd()
-    if (!resolvedPath.startsWith(cwd)) {
-      return null
-    }
-    return resolvedPath
   }
 
   /**

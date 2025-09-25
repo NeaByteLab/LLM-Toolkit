@@ -1,7 +1,7 @@
 /* eslint-disable security/detect-non-literal-fs-filename */
 import { readFile } from 'node:fs/promises'
-import { resolve, normalize, isAbsolute } from 'node:path'
 import type { SchemaFileRead } from '@interfaces/ToolSchema'
+import { getSafePath } from '@core/security/index'
 
 /**
  * Handles file reading operations with security validation.
@@ -32,7 +32,7 @@ export default class FileRead {
       return resValidate
     }
     try {
-      const safePath: string | null = this.getSafePath()
+      const safePath: string | null = getSafePath(this.filePath)
       if (safePath === null) {
         return `Error! Invalid file path: ${this.filePath}.`
       }
@@ -47,27 +47,6 @@ export default class FileRead {
       }
       return `Error! Reading file ${this.filePath}: ${error instanceof Error ? error.message : 'Unknown error'}.`
     }
-  }
-
-  /**
-   * Validates and secures the file path to prevent directory traversal attacks.
-   * @description Checks if path is relative, normalizes it, and ensures it stays within current working directory.
-   * @returns Safe resolved path or null if path is invalid or potentially dangerous
-   */
-  private getSafePath(): string | null {
-    if (isAbsolute(this.filePath)) {
-      return null
-    }
-    const normalizedPath: string = normalize(this.filePath)
-    const resolvedPath: string = resolve(process.cwd(), normalizedPath)
-    if (resolvedPath.includes('..') || resolvedPath.includes('~')) {
-      return null
-    }
-    const cwd: string = process.cwd()
-    if (!resolvedPath.startsWith(cwd)) {
-      return null
-    }
-    return resolvedPath
   }
 
   /**

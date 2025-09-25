@@ -1,7 +1,13 @@
-import type { SchemaFileEdit, SchemaFileRead, SchemaFileCreate } from '@root/interfaces/index'
+import type {
+  SchemaDirectoryList,
+  SchemaFileCreate,
+  SchemaFileEdit,
+  SchemaFileRead
+} from '@root/interfaces/index'
+import DirectoryList from '@core/base/DirectoryList'
+import FileCreate from '@core/base/FileCreate'
 import FileEdit from '@core/base/FileEdit'
 import FileRead from '@core/base/FileRead'
-import FileCreate from '@core/base/FileCreate'
 
 /**
  * Executes tool operations based on tool name and arguments.
@@ -17,12 +23,14 @@ export class ToolExecutor {
    */
   async execute(toolName: string, args: unknown): Promise<string> {
     switch (toolName) {
+      case 'DirectoryList':
+        return new DirectoryList(args as SchemaDirectoryList).execute()
+      case 'FileCreate':
+        return new FileCreate(args as SchemaFileCreate).execute()
       case 'FileEdit':
         return new FileEdit(args as SchemaFileEdit).execute()
       case 'FileRead':
         return new FileRead(args as SchemaFileRead).execute()
-      case 'FileCreate':
-        return new FileCreate(args as SchemaFileCreate).execute()
       default:
         return `Unknown tool: ${toolName}`
     }
