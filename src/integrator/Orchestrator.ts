@@ -12,10 +12,13 @@ import type {
   OrchestratorConfig,
   OrchestratorResponse,
   ToolRequestedEvent,
-  ToolResponseEvent
+  ToolResponseEvent,
+  StreamContentEvent
 } from '@interfaces/index'
 import { ToolExecutor } from '@core/index'
 import { ChatManager } from '@integrator/index'
+import { ParserNonStream } from '@integrator/ParserNonStream'
+import { ParserStream } from '@integrator/ParserStream'
 
 /**
  * Orchestrates chat interactions with tool execution capabilities.
@@ -42,6 +45,15 @@ export class Orchestrator extends EventEmitter {
     this.tools = config.tools
     this.chatManager = new ChatManager()
     this.toolExecutor = new ToolExecutor()
+  }
+
+  /**
+   * Aborts the current request if one is active.
+   * @description Delegates abort to the Ollama client.
+   * @returns True if request was aborted, false if no request was active
+   */
+  abort(): boolean {
+    return this.client.abort()
   }
 
   /**
@@ -83,6 +95,7 @@ export class Orchestrator extends EventEmitter {
     this.on('thinking', (data: string) => emitter.emit('thinking', data))
     this.on('toolRequested', (data: ToolRequestedEvent) => emitter.emit('toolRequested', data))
     this.on('toolResponse', (data: ToolResponseEvent) => emitter.emit('toolResponse', data))
+    this.on('streamContent', (data: StreamContentEvent) => emitter.emit('streamContent', data))
   }
 
   /**
@@ -95,6 +108,9 @@ export class Orchestrator extends EventEmitter {
     let hasToolCalls: boolean = true
     let iterationCount: number = 0
     while (hasToolCalls) {
+      if (!this.client.isActive) {
+        break
+      }
       iterationCount++
       console.log(`🔄 Processing iteration ${iterationCount}...`)
       const sessionMessages: ChatMessage[] = this.chatManager.getMessages(sessionId) ?? []
@@ -103,34 +119,33 @@ export class Orchestrator extends EventEmitter {
         messages: sessionMessages.length > 0 ? sessionMessages : request.messages,
         tools: this.tools
       }
-      const response: ResponseChat | ResponseChatStream = (await this.client.chat(
-        enhancedRequest
-      )) as ResponseChat | ResponseChatStream
-      await this.processResponse(sessionId, response)
-      hasToolCalls =
-        response.message?.tool_calls !== undefined && response.message.tool_calls.length > 0
-    }
-  }
-
-  /**
-   * Processes chat response and handles tool calls.
-   * @description Processes the response, adds messages to session, and handles tool calls if present.
-   * @param sessionId - The session ID to process the response for
-   * @param response - The chat response to process
-   */
-  private async processResponse(
-    sessionId: string,
-    response: ResponseChat | ResponseChatStream
-  ): Promise<void> {
-    if ('message' in response && response.message != null) {
-      this.chatManager.addMessage(sessionId, response.message)
-      this.emit('message', response.message)
-      if (response.message.tool_calls !== undefined && response.message.tool_calls.length > 0) {
-        await this.handleToolCalls(sessionId, response.message.tool_calls)
+      const response: ResponseChat | AsyncIterable<ResponseChatStream> =
+        await this.client.chat(enhancedRequest)
+      if (!this.client.isActive) {
+        break
       }
-    }
-    if (response.thinking !== undefined && response.thinking.length > 0) {
-      this.emit('thinking', response.thinking)
+      if (request.stream === true && Symbol.asyncIterator in response) {
+        const finalMessage: ChatMessage | null = await ParserStream.processStreamingResponse(
+          sessionId,
+          response,
+          this.chatManager,
+          this.emit.bind(this),
+          this.handleToolCalls.bind(this)
+        )
+        hasToolCalls = finalMessage?.tool_calls !== undefined && finalMessage.tool_calls.length > 0
+      } else {
+        await ParserNonStream.processResponse(
+          sessionId,
+          response as ResponseChat,
+          this.chatManager,
+          this.emit.bind(this),
+          this.handleToolCalls.bind(this)
+        )
+        const nonStreamResponse: ResponseChat = response as ResponseChat
+        hasToolCalls =
+          nonStreamResponse.message?.tool_calls !== undefined &&
+          nonStreamResponse.message.tool_calls.length > 0
+      }
     }
   }
 

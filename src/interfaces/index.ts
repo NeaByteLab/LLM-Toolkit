@@ -5,5 +5,6 @@
 export * from '@interfaces/Chat'
 export * from '@interfaces/Orchestrator'
 export * from '@interfaces/SecurityPath'
+export * from '@interfaces/Stream'
 export * from '@interfaces/ToolEvent'
 export * from '@interfaces/ToolSchema'

@@ -1,6 +1,6 @@
 import 'dotenv/config'
-import { OllamaService, type ChatMessage, type RequestChat } from '@neabyte/ollama-native'
-import type { ToolRequestedEvent, ToolResponseEvent } from '@interfaces/index'
+import { OllamaService, type RequestChat } from '@neabyte/ollama-native'
+import type { ToolRequestedEvent, ToolResponseEvent, StreamContentEvent } from '@interfaces/index'
 import { ContextSys, Orchestrator } from '@integrator/index'
 import allToolSchemas from '@schemas/index'
 
@@ -9,26 +9,20 @@ import allToolSchemas from '@schemas/index'
  * @description Demonstrates the complete workflow of chat interaction with tool calling support.
  * @returns void
  */
-async function testOllamaIntegration(): Promise<void> {
-  let ollama: OllamaService
-  process.on('SIGINT', () => {
-    if (ollama?.isActive) {
+async function testStreamingIntegration(): Promise<void> {
+  let ollama: OllamaService | null = null
+  let llmOrchestrator: Orchestrator | null = null
+  const abortHandler: () => void = (): void => {
+    if (ollama?.isActive === true) {
       ollama.abort()
     }
-    process.exit(0)
-  })
-  process.on('SIGTERM', () => {
-    if (ollama?.isActive) {
-      ollama.abort()
+    if (llmOrchestrator) {
+      llmOrchestrator.abort()
     }
-    process.exit(0)
-  })
-  process.on('SIGHUP', () => {
-    if (ollama?.isActive) {
-      ollama.abort()
-    }
-    process.exit(0)
-  })
+  }
+  process.on('SIGINT', abortHandler)
+  process.on('SIGTERM', abortHandler)
+  process.on('SIGHUP', abortHandler)
   try {
     ollama = new OllamaService({
       host: 'https://ollama.com',
@@ -38,7 +32,7 @@ async function testOllamaIntegration(): Promise<void> {
         Authorization: `Bearer ${process.env['OLLAMA_KEY']}`
       }
     })
-    const llmOrchestrator: Orchestrator = new Orchestrator({
+    llmOrchestrator = new Orchestrator({
       client: ollama,
       tools: allToolSchemas
     })
@@ -48,7 +42,7 @@ async function testOllamaIntegration(): Promise<void> {
       messages: [
         {
           role: 'system',
-          content: new ContextSys().getSystemPrompt() as string
+          content: new ContextSys().getSystemPrompt()
         },
         {
           role: 'user',
@@ -61,13 +55,10 @@ async function testOllamaIntegration(): Promise<void> {
             'Make sure all files are properly structured and contain useful example code.'
         }
       ],
-      stream: false
+      stream: true
     }
     llmOrchestrator.on('error', (error: Error) => {
       console.log('❌ Error:', error.message)
-    })
-    llmOrchestrator.on('message', (data: ChatMessage) => {
-      console.log('💬 Message:', data.content ?? 'Tool call')
     })
     llmOrchestrator.on('thinking', (data: string) => {
       console.log('🧠 Thinking:', data)
@@ -81,8 +72,13 @@ async function testOllamaIntegration(): Promise<void> {
       console.log(JSON.stringify(data, null, 2))
       console.log('---')
     })
+    llmOrchestrator.on('streamContent', (data: StreamContentEvent) => {
+      if (data.content) {
+        process.stdout.write(data.content)
+      }
+    })
     await llmOrchestrator.chat(llmSession, llmRequest)
-    console.log('✅ Test completed successfully!')
+    console.log('\n✅ Streaming test completed successfully!')
   } catch (error) {
     console.error('❌ Error:', error)
   }
@@ -93,4 +89,4 @@ async function testOllamaIntegration(): Promise<void> {
  * @description Demonstrates the complete workflow of chat interaction with tool calling support.
  * @returns void
  */
-testOllamaIntegration().catch(console.error)
+testStreamingIntegration().catch(console.error)

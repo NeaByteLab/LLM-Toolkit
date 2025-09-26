@@ -1,6 +1,11 @@
 import type { EventEmitter } from 'node:events'
 import type { RequestChat, OllamaService, ToolCall, ChatMessage } from '@neabyte/ollama-native'
-import type { ChatSession, ToolRequestedEvent, ToolResponseEvent } from '@interfaces/index'
+import type {
+  ChatSession,
+  ToolRequestedEvent,
+  ToolResponseEvent,
+  StreamContentEvent
+} from '@interfaces/index'
 
 /**
  * Configuration for the Orchestrator.
@@ -28,6 +33,8 @@ export interface OrchestratorResponse extends EventEmitter {
   on(event: 'toolRequested', listener: (data: ToolRequestedEvent) => void): this
   /** Event listener for tool response events */
   on(event: 'toolResponse', listener: (data: ToolResponseEvent) => void): this
+  /** Event listener for streaming content events */
+  on(event: 'streamContent', listener: (data: StreamContentEvent) => void): this
 }
 
 /**
