@@ -1,4 +1,3 @@
-/* eslint-disable security/detect-non-literal-fs-filename */
 import { unlink } from 'node:fs/promises'
 import type { SchemaFileDelete, SecurityPathResult } from '@interfaces/index'
 import { getSafePath } from '@core/security/index'

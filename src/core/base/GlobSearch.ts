@@ -99,6 +99,34 @@ export default class GlobSearch {
    * @returns 'ok' if validation passes, error message if validation fails
    */
   private validate(): string {
+    const patternsValidation: string = this.validatePatterns()
+    if (patternsValidation !== 'ok') {
+      return patternsValidation
+    }
+    const workingDirValidation: string = this.validateWorkingDir()
+    if (workingDirValidation !== 'ok') {
+      return workingDirValidation
+    }
+    const booleanValidation: string = this.validateBooleanOptions()
+    if (booleanValidation !== 'ok') {
+      return booleanValidation
+    }
+    const maxDepthValidation: string = this.validateMaxDepth()
+    if (maxDepthValidation !== 'ok') {
+      return maxDepthValidation
+    }
+    const conflictValidation: string = this.validateOptionConflicts()
+    if (conflictValidation !== 'ok') {
+      return conflictValidation
+    }
+    return 'ok'
+  }
+
+  /**
+   * Validates the patterns array.
+   * @returns 'ok' if validation passes, error message if validation fails
+   */
+  private validatePatterns(): string {
     if (!Array.isArray(this.patterns)) {
       return '`patterns` must be an array.'
     }
@@ -113,12 +141,28 @@ export default class GlobSearch {
         return 'Patterns cannot be empty.'
       }
     }
+    return 'ok'
+  }
+
+  /**
+   * Validates the working directory parameter.
+   * @returns 'ok' if validation passes, error message if validation fails
+   */
+  private validateWorkingDir(): string {
     if (this.workingDir !== undefined && typeof this.workingDir !== 'string') {
       return '`workingDir` must be a string.'
     }
     if (this.workingDir !== undefined && this.workingDir.trim().length === 0) {
       return '`workingDir` cannot be empty.'
     }
+    return 'ok'
+  }
+
+  /**
+   * Validates boolean options.
+   * @returns 'ok' if validation passes, error message if validation fails
+   */
+  private validateBooleanOptions(): string {
     if (typeof this.caseSensitive !== 'boolean') {
       return '`caseSensitive` must be a boolean.'
     }
@@ -128,12 +172,28 @@ export default class GlobSearch {
     if (typeof this.onlyDirectories !== 'boolean') {
       return '`onlyDirectories` must be a boolean.'
     }
+    return 'ok'
+  }
+
+  /**
+   * Validates the max depth parameter.
+   * @returns 'ok' if validation passes, error message if validation fails
+   */
+  private validateMaxDepth(): string {
     if (this.maxDepth !== undefined && typeof this.maxDepth !== 'number') {
       return '`maxDepth` must be a number.'
     }
     if (this.maxDepth !== undefined && (this.maxDepth < 0 || this.maxDepth > 20)) {
       return '`maxDepth` must be between 0 and 20.'
     }
+    return 'ok'
+  }
+
+  /**
+   * Validates option conflicts.
+   * @returns 'ok' if validation passes, error message if validation fails
+   */
+  private validateOptionConflicts(): string {
     if (this.onlyFiles && this.onlyDirectories) {
       return 'Cannot set both `onlyFiles` and `onlyDirectories` to true.'
     }

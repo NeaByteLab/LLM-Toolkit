@@ -1,4 +1,3 @@
-/* eslint-disable security/detect-non-literal-fs-filename */
 import { readFile } from 'node:fs/promises'
 import type { SchemaFileRead, SecurityPathResult } from '@interfaces/index'
 import { getSafePath, validateFileSize } from '@core/security/index'

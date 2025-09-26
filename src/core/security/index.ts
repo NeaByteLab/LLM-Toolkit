@@ -1,4 +1,3 @@
-/* eslint-disable security/detect-non-literal-fs-filename */
 import type { Stats } from 'node:fs'
 import { stat } from 'node:fs/promises'
 import { resolve, normalize, isAbsolute, basename, extname, dirname } from 'node:path'

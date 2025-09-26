@@ -1,4 +1,3 @@
-/* eslint-disable security/detect-non-literal-fs-filename */
 import { createWriteStream, type WriteStream, existsSync } from 'node:fs'
 import type { SchemaFileCreate, SecurityPathResult } from '@interfaces/index'
 import { getSafePath } from '@core/security/index'

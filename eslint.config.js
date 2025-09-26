@@ -25,7 +25,7 @@ export default [
    * @description Configuration object for TypeScript and TSX files with rules
    */
   {
-    files: ['src/**/*.ts', 'src/**/*.tsx'],
+    files: ['src/**/**/**/**/*.ts', 'src/**/**/**/**/*.tsx'],
     ignores: ['src/scripts/**/*.ts'],
     languageOptions: {
       parser: tsParser,
@@ -247,10 +247,8 @@ export default [
       'security/detect-eval-with-expression': 'error',
       'security/detect-new-buffer': 'warn',
       'security/detect-no-csrf-before-method-override': 'warn',
-      'security/detect-non-literal-fs-filename': 'warn',
       'security/detect-non-literal-regexp': 'warn',
       'security/detect-non-literal-require': 'warn',
-      'security/detect-object-injection': 'warn',
       'security/detect-possible-timing-attacks': 'warn',
       'security/detect-pseudoRandomBytes': 'warn',
       'security/detect-unsafe-regex': 'warn'

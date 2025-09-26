@@ -1,4 +1,3 @@
-/* eslint-disable security/detect-non-literal-fs-filename */
 import type { Stats } from 'node:fs'
 import { readdir, stat } from 'node:fs/promises'
 import type { SchemaDirectoryList, SecurityPathResult } from '@interfaces/index'
