@@ -3,6 +3,7 @@
  * @description Centralizes all interface exports for easy importing.
  */
 export * from '@interfaces/Chat'
+export * from '@interfaces/Embedding'
 export * from '@interfaces/Orchestrator'
 export * from '@interfaces/SecurityPath'
 export * from '@interfaces/Stream'
