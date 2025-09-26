@@ -8,6 +8,7 @@ import FileRename from '@schemas/FileRename'
 import FileSearch from '@schemas/FileSearch'
 import GlobSearch from '@schemas/GlobSearch'
 import TerminalCmd from '@schemas/TerminalCmd'
+import WebFetch from '@schemas/WebFetch'
 
 /**
  * Collection of available tool schemas.
@@ -22,5 +23,6 @@ export default [
   FileRename as ToolCall,
   FileSearch as ToolCall,
   GlobSearch as ToolCall,
-  TerminalCmd as ToolCall
+  TerminalCmd as ToolCall,
+  WebFetch as ToolCall
 ]

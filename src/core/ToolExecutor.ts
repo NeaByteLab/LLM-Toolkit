@@ -7,7 +7,8 @@ import type {
   SchemaFileRename,
   SchemaFileSearch,
   SchemaGlobSearch,
-  SchemaTerminalCmd
+  SchemaTerminalCmd,
+  SchemaWebFetch
 } from '@root/interfaces/index'
 import DirectoryList from '@core/base/DirectoryList'
 import FileCreate from '@core/base/FileCreate'
@@ -18,6 +19,7 @@ import FileRename from '@core/base/FileRename'
 import FileSearch from '@core/base/FileSearch'
 import GlobSearch from '@core/base/GlobSearch'
 import TerminalCmd from '@core/base/TerminalCmd'
+import WebFetch from '@core/base/WebFetch'
 
 /**
  * Executes tool operations based on tool name and arguments.
@@ -51,6 +53,8 @@ export class ToolExecutor {
         return new GlobSearch(args as SchemaGlobSearch).execute()
       case 'TerminalCmd':
         return new TerminalCmd(args as SchemaTerminalCmd).execute()
+      case 'WebFetch':
+        return new WebFetch(args as SchemaWebFetch).execute()
       default:
         return `Unknown tool: ${toolName}`
     }

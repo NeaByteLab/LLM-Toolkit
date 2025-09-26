@@ -116,3 +116,12 @@ export interface SchemaTerminalCmd {
   /** Timeout for command execution in milliseconds (30000-300000) */
   timeout?: number
 }
+
+/**
+ * Schema for web fetching operations.
+ * @description Defines the structure for web fetching tool parameters.
+ */
+export interface SchemaWebFetch {
+  /** The complete URL to fetch */
+  url: string
+}
