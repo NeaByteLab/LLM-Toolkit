@@ -102,7 +102,7 @@ export default class TerminalCmd {
 
   /**
    * Validates the terminal command parameters.
-   * @description Checks that all parameters are valid.
+   * @description Checks that command, workingDir, and timeout parameters are valid.
    * @returns 'ok' if validation passes, error message if validation fails
    */
   private validate(): string {

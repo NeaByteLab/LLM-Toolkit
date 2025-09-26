@@ -124,6 +124,7 @@ export default class GlobSearch {
 
   /**
    * Validates the patterns array.
+   * @description Checks that patterns is a valid non-empty array of strings.
    * @returns 'ok' if validation passes, error message if validation fails
    */
   private validatePatterns(): string {
@@ -146,6 +147,7 @@ export default class GlobSearch {
 
   /**
    * Validates the working directory parameter.
+   * @description Checks that workingDir is a valid string when provided.
    * @returns 'ok' if validation passes, error message if validation fails
    */
   private validateWorkingDir(): string {
@@ -160,6 +162,7 @@ export default class GlobSearch {
 
   /**
    * Validates boolean options.
+   * @description Checks that all boolean parameters are valid boolean values.
    * @returns 'ok' if validation passes, error message if validation fails
    */
   private validateBooleanOptions(): string {
@@ -177,6 +180,7 @@ export default class GlobSearch {
 
   /**
    * Validates the max depth parameter.
+   * @description Checks that maxDepth is a valid number within the allowed range.
    * @returns 'ok' if validation passes, error message if validation fails
    */
   private validateMaxDepth(): string {
@@ -191,6 +195,7 @@ export default class GlobSearch {
 
   /**
    * Validates option conflicts.
+   * @description Checks for conflicting boolean options that cannot be true simultaneously.
    * @returns 'ok' if validation passes, error message if validation fails
    */
   private validateOptionConflicts(): string {

@@ -52,6 +52,29 @@ export interface SchemaFileRead {
 }
 
 /**
+ * Schema for fuzzy filename search operations.
+ * @description Defines the structure for fuzzy filename search tool parameters.
+ */
+export interface SchemaFileSearch {
+  /** Whether the search should be case-sensitive */
+  caseSensitive?: boolean
+  /** Whether to include file extensions in the search */
+  includeExtensions?: boolean
+  /** Maximum depth to search (0-20) */
+  maxDepth?: number
+  /** Maximum number of results to return (1-100) */
+  maxResults?: number
+  /** Whether to search only directories (true) or include files (false) */
+  onlyDirectories?: boolean
+  /** Whether to search only files (true) or include directories (false) */
+  onlyFiles?: boolean
+  /** The partial filename or pattern to search for */
+  searchTerm: string
+  /** The working directory to search from */
+  workingDir?: string
+}
+
+/**
  * Schema for glob pattern file search operations.
  * @description Defines the structure for glob pattern file search tool parameters.
  */

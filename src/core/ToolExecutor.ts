@@ -4,6 +4,7 @@ import type {
   SchemaFileDelete,
   SchemaFileEdit,
   SchemaFileRead,
+  SchemaFileSearch,
   SchemaGlobSearch,
   SchemaTerminalCmd
 } from '@root/interfaces/index'
@@ -12,6 +13,7 @@ import FileCreate from '@core/base/FileCreate'
 import FileDelete from '@core/base/FileDelete'
 import FileEdit from '@core/base/FileEdit'
 import FileRead from '@core/base/FileRead'
+import FileSearch from '@core/base/FileSearch'
 import GlobSearch from '@core/base/GlobSearch'
 import TerminalCmd from '@core/base/TerminalCmd'
 
@@ -39,6 +41,8 @@ export class ToolExecutor {
         return new FileEdit(args as SchemaFileEdit).execute()
       case 'FileRead':
         return new FileRead(args as SchemaFileRead).execute()
+      case 'FileSearch':
+        return new FileSearch(args as SchemaFileSearch).execute()
       case 'GlobSearch':
         return new GlobSearch(args as SchemaGlobSearch).execute()
       case 'TerminalCmd':
