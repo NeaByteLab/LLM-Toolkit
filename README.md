@@ -4,18 +4,18 @@ A TypeScript toolkit for integrating Large Language Models with tool execution c
 
 ## 🎯 Purpose & Features
 
-Tool calling toolkit for LLM applications. Handles multiple tool calls, manages sessions, and executes tools.
+A simple toolkit for integrating LLM applications with tool execution capabilities. Provides basic functionality for handling tool calls, managing chat sessions, and executing operations.
 
-- **Tool Schemas**: Schemas for various operations
-- **Validation System**: Parameter validation and error handling
-- **Tool Execution**: Framework for executing tools with error handling
-- **Session Management**: Chat session management with message history
-- **Real-time Events**: Event-driven architecture for live updates
+- **Tool Schemas**: Basic schemas for common operations
+- **Validation System**: Simple parameter validation and error handling
+- **Tool Execution**: Basic framework for executing tools with error handling
+- **Session Management**: Simple chat session management with message history
+- **Real-time Events**: Basic event-driven architecture for live updates
 - **Type Safety**: TypeScript support with type definitions
-- **Multi-Provider**: Works with multiple LLM providers
+- **Multi-Provider**: Basic support for multiple LLM providers
 
 > [!NOTE]
-> This toolkit shows how to handle multiple tool calls, manage sessions, and structure tool execution. The code is straightforward - you can see how the Orchestrator loops through tool calls, how ChatManager keeps track of messages, and how ToolExecutor runs the actual tools.
+> This toolkit shows how to handle multiple tool calls, manage sessions, and structure tool execution. The code is straightforward - you can see how the `Orchestrator` loops through tool calls, how `ChatManager` keeps track of messages, and how `ToolExecutor` runs the actual tools.
 
 ## 🏗️ Architecture
 
@@ -67,11 +67,11 @@ sequenceDiagram
 
 2. **⚙️ Environment Setup**
    ```bash
-   # Rename the example environment file
-   mv .env.example .env
+   # Create environment file
+   echo "OLLAMA_KEY=your_api_key_here" > .env
 
-   # Edit .env and add your API key
-   OLLAMA_KEY=your_api_key_here
+   # Edit .env and replace with your actual API key
+   # OLLAMA_KEY=your_actual_api_key_here
    ```
 
 3. **📦 Install Dependencies**
@@ -108,19 +108,19 @@ src/
 
 1. **Create Schema** (`/src/schemas/YourTool.ts`)
    ```typescript
-   export const YourToolSchema: ToolCall = {
-   type: 'function',
-   function: {
-      name: 'your_tool_name',
-      description: 'What your tool does',
-      parameters: {
-         type: 'object',
-         properties: {
-         param1: { type: 'string', description: 'Description' }
-         },
-         required: ['param1']
+   export default {
+      type: 'function',
+      function: {
+         name: 'your_tool_name',
+         description: 'What your tool does',
+         parameters: {
+            type: 'object',
+            properties: {
+            param1: { type: 'string', description: 'Description' }
+            },
+            required: ['param1']
+         }
       }
-   }
    }
    ```
 
@@ -181,6 +181,18 @@ To edit the environment context:
 - ⏰ Customize time format in `getTimeInfo()`
 - 💻 Add more OS details in `getOSInfo()`
 - 📁 Include additional path information in `getPathInfo()`
+
+---
+
+## ⚠️ Known Issues & Roadmap
+
+### Current Behavior
+- **Orchestrator Abort Issues**: The `Orchestrator.abort()` method delegates to `client.abort()` but doesn't handle cleanup of active tool executions or pending operations. When abort is called during tool execution, the orchestrator may not properly terminate running processes, leading to potential resource leaks or incomplete operations.
+
+### Planned Improvements
+- **Security Enhancement**: Add approval mechanism for tool execution to prevent unauthorized operations
+- **Orchestrator Refactor**: Improve abort handling and process management for better reliability
+- **Tool Execution Control**: Implement user confirmation system for sensitive operations
 
 ---
 
