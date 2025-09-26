@@ -1,7 +1,7 @@
 import 'dotenv/config'
 import { OllamaService, type ChatMessage, type RequestChat } from '@neabyte/ollama-native'
 import type { ToolRequestedEvent, ToolResponseEvent } from '@interfaces/index'
-import { Orchestrator } from '@integrator/index'
+import { ContextSys, Orchestrator } from '@integrator/index'
 import allToolSchemas from '@schemas/index'
 
 /**
@@ -48,15 +48,17 @@ async function testOllamaIntegration(): Promise<void> {
       messages: [
         {
           role: 'system',
-          content:
-            'You are a helpful code editor. Complete the requested task efficiently and stop when done. Do not make excessive tool calls.'
+          content: new ContextSys().getSystemPrompt() as string
         },
         {
           role: 'user',
           content:
-            'I need you to edit the Calculator.ts file step by step. The file is located at "examples/Calculator.ts".\n\n' +
-            '1. Read the current file to understand its structure\n' +
-            '2. Remove all jsdocs on each method'
+            'I need you to create an examples folder and add some sample files inside it. Please follow these steps:\n\n' +
+            '1. Create a new directory called "examples"\n' +
+            '2. Create a Calculator.ts file inside the examples folder with basic calculator functionality\n' +
+            '3. Create a README.md file in the examples folder explaining what the examples are for\n' +
+            '4. Create a simple TodoList.ts file in the examples folder with basic todo functionality\n\n' +
+            'Make sure all files are properly structured and contain useful example code.'
         }
       ],
       stream: false
