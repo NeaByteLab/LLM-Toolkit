@@ -1,3 +1,6 @@
+# Bin directory
+bin/
+
 # Dependencies
 node_modules/
 npm-debug.log*
