@@ -2,7 +2,9 @@
 
 A TypeScript toolkit for integrating Large Language Models with tool execution capabilities.
 
-## ✨ Features
+## 🎯 Purpose & Features
+
+Tool calling toolkit for LLM applications. Handles multiple tool calls, manages sessions, and executes tools.
 
 - **Tool Schemas**: Schemas for various operations
 - **Validation System**: Parameter validation and error handling
@@ -12,18 +14,8 @@ A TypeScript toolkit for integrating Large Language Models with tool execution c
 - **Type Safety**: TypeScript support with type definitions
 - **Multi-Provider**: Works with multiple LLM providers
 
-## 🎯 Purpose
-
-This toolkit implements tool calling capabilities in LLM applications. It includes:
-
-- **Type Safety**: TypeScript support with type definitions
-- **Tool Schemas**: Definitions for tool calling functionality
-- **Validation Logic**: Parameter validation and execution validation
-- **Execution Framework**: Tool execution and management
-- **Modular Architecture**: Integration with LLM providers
-
 > [!NOTE]
-> This is a simple toolkit for building LLM applications with tool calling. It shows how to handle multiple tool calls, manage sessions, and structure tool execution. The code is straightforward - you can see how the Orchestrator loops through tool calls, how ChatManager keeps track of messages, and how ToolExecutor runs the actual tools. Planning to add more common tools like file operations, web scraping, and API calls. Feel free to copy the patterns or use it as a starting point for your own projects.
+> This toolkit shows how to handle multiple tool calls, manage sessions, and structure tool execution. The code is straightforward - you can see how the Orchestrator loops through tool calls, how ChatManager keeps track of messages, and how ToolExecutor runs the actual tools.
 
 ## 🏗️ Architecture
 
@@ -56,12 +48,139 @@ sequenceDiagram
     Orchestrator-->>User: Return response
 ```
 
-### **🧩 Components:**
-- **Core**: Tool execution logic and validation framework
+### 🧩 Components:
+- **Core**: Tool execution logic and validation
 - **Integrator**: Chat orchestration and session management
 - **Interfaces**: TypeScript type definitions for tool calling
 - **Schemas**: Tool schema definitions for LLM integration
 - **Utils**: Utility functions for ID generation and common operations
+
+---
+
+## 🧪 How to Test
+
+### 🔧 Prerequisites
+
+1. **👤 Create Ollama Account**
+   - Sign up at [ollama.com](https://ollama.com)
+   - Create an API key by visiting [ollama.com/settings/keys](https://ollama.com/settings/keys)
+
+2. **⚙️ Environment Setup**
+   ```bash
+   # Rename the example environment file
+   mv .env.example .env
+
+   # Edit .env and add your API key
+   OLLAMA_KEY=your_api_key_here
+   ```
+
+3. **📦 Install Dependencies**
+   ```bash
+   npm install
+   ```
+
+### 🚀 Running Tests
+
+#### **🌊 Streaming Test**
+```bash
+npx tsx src/TestStream.ts
+```
+
+#### **📄 Non-Streaming Test**
+```bash
+npx tsx src/TestNonStream.ts
+```
+
+---
+
+## 🔧 Adding Custom Tools
+
+### 📁 File Structure
+```
+src/
+├── schemas/                  # Tool schema definitions
+├── core/
+│   ├── base/                 # Tool implementation logic
+│   └── ToolExecutor.ts       # Tool registration & execution
+```
+
+### 📋 Steps
+
+1. **Create Schema** (`/src/schemas/YourTool.ts`)
+   ```typescript
+   export const YourToolSchema: ToolCall = {
+   type: 'function',
+   function: {
+      name: 'your_tool_name',
+      description: 'What your tool does',
+      parameters: {
+         type: 'object',
+         properties: {
+         param1: { type: 'string', description: 'Description' }
+         },
+         required: ['param1']
+      }
+   }
+   }
+   ```
+
+2. **Implement Logic** (`/src/core/base/YourTool.ts`)
+   ```typescript
+   export default class YourTool {
+   private readonly param1: string
+
+   constructor(args: SchemaYourTool) {
+      const { param1 } = args
+      this.param1 = param1
+   }
+
+   async execute(): Promise<string> {
+      const resValidate = this.validate()
+      if (resValidate !== 'ok') {
+         return resValidate
+      }
+      // Your logic here
+      return 'Success message'
+   }
+
+   private validate(): string {
+      if (typeof this.param1 !== 'string') {
+         return '`param1` must be a string.'
+      }
+      return 'ok'
+   }
+   }
+   ```
+
+3. **Register in ToolExecutor.ts**
+   ```typescript
+   // Add import
+   import YourTool from '@core/base/YourTool'
+   import type { SchemaYourTool } from '@root/interfaces/index'
+
+   // Add to switch statement
+   case 'your_tool_name':
+   return new YourTool(args as SchemaYourTool).execute()
+   ```
+
+---
+
+## 🎨 Customizing Prompts & Context
+
+### 🤖 System Prompt (`/src/integrator/ContextSys.ts`)
+To edit the AI's behavior and personality:
+- 🔧 Modify `getSystemPrompt()` method
+- ➕➖ Add/remove capabilities, guidelines, or instructions
+- 🎭 Customize the AI agent's behavior and personality
+- 🔒 Update security guidelines or tool usage rules
+
+### 🌍 Context Information (`/src/integrator/ContextEnv.ts`)
+To edit the environment context:
+- 🔧 Modify `getContext()` to change format or add/remove information
+- ➕ Add new methods to gather additional system information
+- ⏰ Customize time format in `getTimeInfo()`
+- 💻 Add more OS details in `getOSInfo()`
+- 📁 Include additional path information in `getPathInfo()`
 
 ---
 
