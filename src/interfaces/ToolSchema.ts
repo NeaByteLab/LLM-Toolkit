@@ -94,6 +94,17 @@ export interface SchemaGlobSearch {
 }
 
 /**
+ * Schema for file rename operations.
+ * @description Defines the structure for file rename tool parameters.
+ */
+export interface SchemaFileRename {
+  /** The current filename to rename */
+  oldFilename: string
+  /** The new filename to rename to */
+  newFilename: string
+}
+
+/**
  * Schema for terminal command execution operations.
  * @description Defines the structure for terminal command execution tool parameters.
  */
