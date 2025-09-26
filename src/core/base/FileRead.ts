@@ -25,6 +25,7 @@ export default class FileRead {
    * Executes the file read operation.
    * @description Performs validation, security checks, and reads file content or returns error message.
    * @returns File content as string or error message if validation/reading fails
+   * @throws {Error} When file system operations fail (returns error message instead of throwing)
    */
   async execute(): Promise<string> {
     const resValidate: string = this.validate()

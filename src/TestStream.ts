@@ -5,13 +5,25 @@ import { ContextSys, Orchestrator } from '@integrator/index'
 import allToolSchemas from '@schemas/index'
 
 /**
- * Tests the Ollama integration with tool execution capabilities.
- * @description Demonstrates the complete workflow of chat interaction with tool calling support.
- * @returns void
+ * Tests the Ollama integration with streaming tool execution capabilities.
+ * @description Demonstrates the complete workflow of streaming chat interaction with tool calling support.
+ * Creates an examples folder with sample files including Calculator.ts, README.md, and TodoList.ts.
+ * Shows real-time content streaming with tool execution feedback.
+ * @returns Promise that resolves when test completes
+ * @throws {Error} When Ollama service initialization fails or chat processing errors occur
+ * @example
+ * ```typescript
+ * // Run the streaming test
+ * testStreamingIntegration().catch(console.error)
+ * ```
  */
 async function testStreamingIntegration(): Promise<void> {
   let ollama: OllamaService | null = null
   let llmOrchestrator: Orchestrator | null = null
+  /**
+   * Handles graceful shutdown on process termination signals.
+   * @description Aborts active Ollama requests and orchestrator operations.
+   */
   const abortHandler: () => void = (): void => {
     if (ollama?.isActive === true) {
       ollama.abort()
@@ -85,8 +97,8 @@ async function testStreamingIntegration(): Promise<void> {
 }
 
 /**
- * Tests the Ollama integration with tool execution capabilities.
- * @description Demonstrates the complete workflow of chat interaction with tool calling support.
- * @returns void
+ * Executes the streaming integration test.
+ * @description Runs the streaming test function and handles any errors that occur during execution.
+ * @throws {Error} When test execution fails
  */
 testStreamingIntegration().catch(console.error)

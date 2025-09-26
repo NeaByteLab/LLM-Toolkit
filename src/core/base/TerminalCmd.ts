@@ -43,6 +43,7 @@ export default class TerminalCmd {
    * Executes the terminal command.
    * @description Performs validation, security checks, and executes the command with timeout protection.
    * @returns Command output, exit code, and execution details or error message
+   * @throws {Error} When command execution fails or times out (returns error message instead of throwing)
    */
   async execute(): Promise<string> {
     const resValidate: string = this.validate()

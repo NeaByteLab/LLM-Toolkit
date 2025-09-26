@@ -16,6 +16,8 @@ export class ParserStream {
    * @param emit - Function to emit events
    * @param handleToolCalls - Function to handle tool calls
    * @returns The final message for tool call checking
+   * @throws {AbortError} When the stream is aborted (returns current message instead of throwing)
+   * @throws {Error} When stream processing fails or handleToolCalls throws an error
    */
   static async processStreamingResponse(
     sessionId: string,
@@ -40,9 +42,7 @@ export class ParserStream {
         }
       }
     } catch (error) {
-      // Handle abort errors gracefully
       if (error instanceof Error && error.name === 'AbortError') {
-        console.log('🛑 Streaming aborted by user')
         return currentMessage
       }
       throw error
@@ -109,6 +109,7 @@ export class ParserStream {
    * @param chatManager - The chat manager instance
    * @param emit - Function to emit events
    * @param handleToolCalls - Function to handle tool calls
+   * @throws {Error} When chatManager.addMessage fails or handleToolCalls throws an error
    */
   private static async finalizeStreamingMessage(
     sessionId: string,

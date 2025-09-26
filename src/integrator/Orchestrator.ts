@@ -72,6 +72,7 @@ export class Orchestrator extends EventEmitter {
    * @param sessionId - The session ID to process the chat in
    * @param request - The chat request to process
    * @returns Promise that resolves to an event emitter for real-time updates
+   * @throws {Error} When sessionId is invalid, request processing fails, or tool execution errors occur
    */
   async chat(sessionId: string, request: RequestChat): Promise<OrchestratorResponse> {
     const responseEmitter: OrchestratorResponse = new EventEmitter() as OrchestratorResponse
