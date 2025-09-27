@@ -17,7 +17,7 @@ A simple toolkit for integrating LLM applications with tool execution capabiliti
 - **⚡ Event-Driven**: Real-time callbacks for thinking, messages, tool calls, and results
 
 > [!NOTE]
-> This toolkit provides LLM-tool integration with permission controls. The `Orchestrator` handles chat interactions, tool execution, and user permissions, while `ContextSys` provides environment context for AI responses.
+> This toolkit provides LLM-tool integration with permission controls. The [`Orchestrator`](src/integrator/Orchestrator.ts) handles chat interactions, tool execution, and user permissions, while [`ContextSys`](src/integrator/ContextSys.ts) provides environment context for AI responses.
 
 ## 🏗️ Architecture
 
@@ -93,7 +93,7 @@ sequenceDiagram
 
 #### **🎯 Main Example**
 ```bash
-npx tsx src/index.ts
+npx tsx [src/index.ts](src/index.ts)
 ```
 
 This demonstrates the complete toolkit with:
@@ -120,50 +120,50 @@ src/
 1. **Create Schema** (`/src/schemas/YourTool.ts`)
    ```typescript
    export default {
-      type: 'function',
-      function: {
-         name: 'your_tool_name',
-         description: 'What your tool does',
-         parameters: {
-            type: 'object',
-            properties: {
-            param1: { type: 'string', description: 'Description' }
-            },
-            required: ['param1']
-         }
-      }
+     type: 'function',
+     function: {
+       name: 'your_tool_name',
+       description: 'What your tool does',
+       parameters: {
+         type: 'object',
+         properties: {
+           param1: { type: 'string', description: 'Description' }
+         },
+         required: ['param1']
+       }
+     }
    }
    ```
 
 2. **Implement Logic** (`/src/core/base/YourTool.ts`)
    ```typescript
    export default class YourTool {
-   private readonly param1: string
+     private readonly param1: string
 
-   constructor(args: SchemaYourTool) {
-      const { param1 } = args
-      this.param1 = param1
-   }
+     constructor(args: SchemaYourTool) {
+       const { param1 } = args
+       this.param1 = param1
+     }
 
-   async execute(): Promise<string> {
-      const resValidate = this.validate()
-      if (resValidate !== 'ok') {
+     async execute(): Promise<string> {
+       const resValidate = this.validate()
+       if (resValidate !== 'ok') {
          return resValidate
-      }
-      // Your logic here
-      return 'Success message'
-   }
+       }
+       // Your logic here
+       return 'Success message'
+     }
 
-   private validate(): string {
-      if (typeof this.param1 !== 'string') {
+     private validate(): string {
+       if (typeof this.param1 !== 'string') {
          return '`param1` must be a string.'
-      }
-      return 'ok'
-   }
+       }
+       return 'ok'
+     }
    }
    ```
 
-3. **Register in ToolExecutor.ts**
+3. **Register in [ToolExecutor.ts](src/core/ToolExecutor.ts)**
    ```typescript
    // Add import
    import YourTool from '@core/base/YourTool'
@@ -171,21 +171,21 @@ src/
 
    // Add to switch statement
    case 'your_tool_name':
-   return new YourTool(args as SchemaYourTool).execute()
+     return new YourTool(args as SchemaYourTool).execute()
    ```
 
 ---
 
 ## 🎨 Customizing Prompts & Context
 
-### 🤖 System Prompt (`/src/integrator/ContextSys.ts`)
+### 🤖 System Prompt ([`/src/integrator/ContextSys.ts`](src/integrator/ContextSys.ts))
 To edit the AI's behavior and personality:
 - 🔧 Modify `getSystemPrompt()` method
 - ➕➖ Add/remove capabilities, guidelines, or instructions
 - 🎭 Customize the AI agent's behavior and personality
 - 🔒 Update security guidelines or tool usage rules
 
-### 🌍 Context Information (`/src/integrator/ContextEnv.ts`)
+### 🌍 Context Information ([`/src/integrator/ContextEnv.ts`](src/integrator/ContextEnv.ts))
 To edit the environment context:
 - 🔧 Modify `getContext()` to change format or add/remove information
 - ➕ Add new methods to gather additional system information
@@ -242,6 +242,15 @@ orchestrator.abort()
 2. **Context injection**: System prompt is added on first message
 3. **Permission tracking**: Session remembers "allow all" settings
 4. **Termination**: Abort stops all operations
+
+---
+
+## 🔧 Additional Modules
+
+### **🧠 Embedding Module**
+- **[Embedding README](src/core/embedding/README.md)**: Text vectorization and similarity search using transformer models
+- Provides semantic search, text similarity, and content clustering capabilities
+- Independent module for advanced text processing features
 
 ---
 

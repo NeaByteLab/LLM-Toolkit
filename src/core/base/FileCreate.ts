@@ -30,6 +30,7 @@ export default class FileCreate {
    * Executes the file creation operation.
    * @description Performs validation and executes the actual file creation operation.
    * @returns Success message with creation details or validation error message
+   * @throws {Error} When file system operations fail or validation errors occur
    */
   async execute(): Promise<string> {
     const resValidate: string = this.validate()
@@ -39,7 +40,7 @@ export default class FileCreate {
     try {
       const safePath: SecurityPathResult = getSafePath(this.filePath)
       if (!safePath.success) {
-        return `Error! Invalid file path: ${safePath.message}`
+        return `Error! Invalid file path: ${safePath.message}.`
       }
       if (existsSync(safePath.path)) {
         return `Error! File already exists: ${this.filePath}. Use FileEdit tool to modify existing files.`

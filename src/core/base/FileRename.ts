@@ -28,24 +28,24 @@ export default class FileRename {
    * Executes the file rename operation.
    * @description Performs validation, security checks, and renames file by filename only within the same directory.
    * @returns Success message or error message if validation/renaming fails
-   * @throws {Error} When file system operations fail (returns error message instead of throwing)
+   * @throws {Error} When file system operations fail or validation errors occur
    */
   async execute(): Promise<string> {
     const resValidate: string = this.validate()
     if (resValidate !== 'ok') {
-      return `Error! ${resValidate}`
+      return resValidate
     }
     try {
       const safeOldPath: SecurityPathResult = getSafePath(this.oldFilename)
       if (!safeOldPath.success) {
-        return `Error! Invalid old filename: ${safeOldPath.message}`
+        return `Error! Invalid old filename: ${safeOldPath.message}.`
       }
       const oldDir: string = dirname(safeOldPath.path)
       const newBasename: string = basename(this.newFilename)
       const newPath: string = resolve(oldDir, newBasename)
       const safeNewPath: SecurityPathResult = getSafePath(newPath)
       if (!safeNewPath.success) {
-        return `Error! Invalid new filename: ${safeNewPath.message}`
+        return `Error! Invalid new filename: ${safeNewPath.message}.`
       }
       const oldPathExists: { valid: boolean; exists: boolean } = await validateFileSize(
         safeOldPath.path

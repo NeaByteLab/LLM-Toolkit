@@ -24,6 +24,7 @@ export default class WebFetch {
    * Executes the web fetch operation.
    * @description Performs validation, security checks, and fetches web content or returns error message.
    * @returns Web content as Markdown string or error message if validation/fetching fails
+   * @throws {Error} When network operations fail or validation errors occur
    */
   async execute(): Promise<string> {
     const resValidate: string = this.validate()
@@ -41,10 +42,10 @@ export default class WebFetch {
       }
       const content: FetchResponse<string> = await fetch.get<string>(this.url, options)
       if (typeof content !== 'string') {
-        return `Error! Invalid response format from URL: ${this.url}`
+        return `Error! Invalid response format from URL: ${this.url}.`
       }
       if (content.length === 0) {
-        return `Error! Empty response from URL: ${this.url}`
+        return `Error! Empty response from URL: ${this.url}.`
       }
       const maxContentLength: number = 1024 * 1024
       if (content.length > maxContentLength) {
@@ -54,12 +55,12 @@ export default class WebFetch {
     } catch (error) {
       if (error instanceof FetchError) {
         const status: number | string = error.status ?? 'Network Error'
-        return `Error! HTTP ${status} for URL ${this.url}`
+        return `Error! HTTP ${status} for URL ${this.url}.`
       }
       if (error instanceof Error && error.name === 'AbortError') {
-        return `Error! Request timeout for URL: ${this.url}`
+        return `Error! Request timeout for URL: ${this.url}.`
       }
-      return `Error! Fetching URL ${this.url}: ${error instanceof Error ? error.message : 'Unknown error'}`
+      return `Error! Fetching URL ${this.url}: ${error instanceof Error ? error.message : 'Unknown error'}.`
     }
   }
 

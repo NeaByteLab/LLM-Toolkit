@@ -24,6 +24,7 @@ export default class FileDelete {
    * Executes the file deletion operation.
    * @description Performs validation, security checks, and deletes the file or returns error message.
    * @returns Success message or error message if validation/deletion fails
+   * @throws {Error} When file system operations fail or validation errors occur
    */
   async execute(): Promise<string> {
     const resValidate: string = this.validate()
@@ -33,7 +34,7 @@ export default class FileDelete {
     try {
       const safePath: SecurityPathResult = getSafePath(this.filePath)
       if (!safePath.success) {
-        return `Error! Invalid file path: ${safePath.message}`
+        return `Error! Invalid file path: ${safePath.message}.`
       }
       await unlink(safePath.path)
       return `File deleted successfully: ${this.filePath}.`

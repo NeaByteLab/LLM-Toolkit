@@ -72,6 +72,7 @@ export default class FileSearch {
    * Executes the fuzzy file search operation.
    * @description Performs validation, security checks, and executes the fuzzy search.
    * @returns Search results with matching file paths or error message
+   * @throws {Error} When search operations fail or validation errors occur
    */
   async execute(): Promise<string> {
     const resValidate: string = this.validate()
@@ -83,7 +84,7 @@ export default class FileSearch {
       if (this.workingDir !== undefined) {
         const validatedWorkingDir: SecurityPathResult = getSafePath(this.workingDir)
         if (!validatedWorkingDir.success) {
-          return `Error! Invalid working directory: ${validatedWorkingDir.message}`
+          return `Error! Invalid working directory: ${validatedWorkingDir.message}.`
         }
         safeWorkingDir = validatedWorkingDir.path
       }

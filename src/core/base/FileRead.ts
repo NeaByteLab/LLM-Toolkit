@@ -24,7 +24,7 @@ export default class FileRead {
    * Executes the file read operation.
    * @description Performs validation, security checks, and reads file content or returns error message.
    * @returns File content as string or error message if validation/reading fails
-   * @throws {Error} When file system operations fail (returns error message instead of throwing)
+   * @throws {Error} When file system operations fail or validation errors occur
    */
   async execute(): Promise<string> {
     const resValidate: string = this.validate()
@@ -34,7 +34,7 @@ export default class FileRead {
     try {
       const safePath: SecurityPathResult = getSafePath(this.filePath)
       if (!safePath.success) {
-        return `Error! Invalid file path: ${safePath.message}`
+        return `Error! Invalid file path: ${safePath.message}.`
       }
       const sizeValidation: { valid: boolean; exists: boolean } = await validateFileSize(
         safePath.path

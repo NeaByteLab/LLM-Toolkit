@@ -6,9 +6,12 @@ import type { EmbeddingResult } from '@interfaces/Embedding'
  * @description Provides static methods for encoding text into vectors and querying similar content using cosine similarity.
  */
 export class Decoder {
+  /** Encoder instance for text to vector conversion */
   private static readonly encoder: Encoder = new Encoder()
-  private static initialized: boolean = false
+  /** Array to store encoded vectors with optional file paths */
   private static readonly vectors: Array<{ vector: number[]; filePath?: string }> = []
+  /** Flag to track if the encoder has been initialized */
+  private static initialized: boolean = false
 
   /**
    * Initialize the encoder for embedding operations.

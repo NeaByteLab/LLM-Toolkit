@@ -46,6 +46,7 @@ export default class GlobSearch {
    * Executes the glob search operation.
    * @description Performs validation, security checks, and executes the glob search with fast-glob.
    * @returns Search results with matching file paths or error message
+   * @throws {Error} When search operations fail or validation errors occur
    */
   async execute(): Promise<string> {
     const resValidate: string = this.validate()
@@ -57,7 +58,7 @@ export default class GlobSearch {
       if (this.workingDir !== undefined) {
         const validatedWorkingDir: SecurityPathResult = getSafePath(this.workingDir)
         if (!validatedWorkingDir.success) {
-          return `Error! Invalid working directory: ${validatedWorkingDir.message}`
+          return `Error! Invalid working directory: ${validatedWorkingDir.message}.`
         }
         safeWorkingDir = validatedWorkingDir.path
       }

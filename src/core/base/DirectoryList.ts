@@ -25,6 +25,7 @@ export default class DirectoryList {
    * Executes the directory listing operation.
    * @description Performs validation, security checks, and lists directory contents or returns error message.
    * @returns Directory contents as string or error message if validation/listing fails
+   * @throws {Error} When file system operations fail or validation errors occur
    */
   async execute(): Promise<string> {
     const resValidate: string = this.validate()
@@ -34,7 +35,7 @@ export default class DirectoryList {
     try {
       const safePath: SecurityPathResult = getSafePath(this.directoryPath)
       if (!safePath.success) {
-        return `Error! Invalid directory path: ${safePath.message}`
+        return `Error! Invalid directory path: ${safePath.message}.`
       }
       const contents: string[] = await readdir(safePath.path)
       if (contents.length === 0) {

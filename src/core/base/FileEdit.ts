@@ -31,6 +31,7 @@ export default class FileEdit {
    * Executes the file edit operation.
    * @description Performs validation and executes the actual search and replace operation.
    * @returns Success message with edit details or validation error message
+   * @throws {Error} When file system operations fail or validation errors occur
    */
   async execute(): Promise<string> {
     const resValidate: string = this.validate()
@@ -40,7 +41,7 @@ export default class FileEdit {
     try {
       const safePath: SecurityPathResult = getSafePath(this.filePath)
       if (!safePath.success) {
-        return `Error! Invalid file path: ${safePath.message}`
+        return `Error! Invalid file path: ${safePath.message}.`
       }
       if (!existsSync(safePath.path)) {
         return `Error! File not found: ${this.filePath}.`
@@ -87,7 +88,7 @@ export default class FileEdit {
       return {
         success: false,
         message:
-          'Error! The specified text was not found in the file. Please check the oldString parameter and ensure it matches the file content exactly.'
+          'Error! The specified text was not found in the file. Please check the `oldString` parameter and ensure it matches the file content exactly.'
       }
     }
     const parts: string[] = fileContent.split(this.oldString)
@@ -95,7 +96,7 @@ export default class FileEdit {
     if (occurrences > 1) {
       return {
         success: false,
-        message: `Error! The oldString appears ${occurrences} times in the file. Please provide more context to make it unique.`
+        message: `Error! The \`oldString\` appears ${occurrences} times in the file. Please provide more context to make it unique.`
       }
     }
     const newContent: string = fileContent.replace(this.oldString, this.newString)

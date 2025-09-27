@@ -43,7 +43,7 @@ export default class TerminalCmd {
    * Executes the terminal command.
    * @description Performs validation, security checks, and executes the command with timeout protection.
    * @returns Command output, exit code, and execution details or error message
-   * @throws {Error} When command execution fails or times out (returns error message instead of throwing)
+   * @throws {Error} When command execution fails or times out
    */
   async execute(): Promise<string> {
     const resValidate: string = this.validate()
@@ -54,7 +54,7 @@ export default class TerminalCmd {
       if (this.workingDir !== undefined) {
         const validatedWorkingDir: SecurityPathResult = getSafePath(this.workingDir)
         if (!validatedWorkingDir.success) {
-          return `Error! Invalid working directory: ${validatedWorkingDir.message}`
+          return `Error! Invalid working directory: ${validatedWorkingDir.message}.`
         }
       }
       const startTime: number = Date.now()

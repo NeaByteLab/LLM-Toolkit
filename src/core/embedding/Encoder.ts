@@ -22,7 +22,9 @@ const defaultOptions: Required<EmbeddingOptions> = {
  * @description Implements sentence embedding extraction with batch processing support.
  */
 export class Encoder implements EmbeddingExtractor {
+  /** Transformer pipeline instance for feature extraction */
   private pipeline: unknown = null
+  /** Flag to track if the encoder has been initialized */
   private initialized: boolean = false
 
   /**
