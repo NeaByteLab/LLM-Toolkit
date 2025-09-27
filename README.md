@@ -6,16 +6,18 @@ A TypeScript toolkit for integrating Large Language Models with tool execution c
 
 A simple toolkit for integrating LLM applications with tool execution capabilities. Provides basic functionality for handling tool calls, managing chat sessions, and executing operations.
 
-- **Tool Schemas**: Basic schemas for common operations
-- **Validation System**: Simple parameter validation and error handling
-- **Tool Execution**: Basic framework for executing tools with error handling
-- **Session Management**: Simple chat session management with message history
-- **Real-time Events**: Basic event-driven architecture for live updates
-- **Type Safety**: TypeScript support with type definitions
-- **Multi-Provider**: Basic support for multiple LLM providers
+- **🎯 Clean API**: Simple interface with minimal setup required
+- **📐 Type Safety**: Full TypeScript support with type definitions
+- **📱 Session Management**: Session handling with abort controls and permission inheritance
+- **🧠 Rich Context**: System prompts with environment-aware ContextSys integration
+- **🔧 Tool Execution**: Tool registration with error handling and validation
+- **🔒 Permission System**: Approval controls for tool execution with `approve`, `deny`, and `allow_all` options
+- **🛡️ Security**: Security measures with tool usage restrictions and validation
+- **🌊 Streaming Support**: API for both streaming and standard responses
+- **⚡ Event-Driven**: Real-time callbacks for thinking, messages, tool calls, and results
 
 > [!NOTE]
-> This toolkit shows how to handle multiple tool calls, manage sessions, and structure tool execution. The code is straightforward - you can see how the `Orchestrator` loops through tool calls, how `ChatManager` keeps track of messages, and how `ToolExecutor` runs the actual tools.
+> This toolkit provides LLM-tool integration with permission controls. The `Orchestrator` handles chat interactions, tool execution, and user permissions, while `ContextSys` provides environment context for AI responses.
 
 ## 🏗️ Architecture
 
@@ -23,35 +25,43 @@ A simple toolkit for integrating LLM applications with tool execution capabiliti
 sequenceDiagram
     participant User
     participant Orchestrator
+    participant ContextSys
     participant ChatManager
     participant ToolExecutor
     participant LLM
     participant Tools
 
     User->>Orchestrator: Send chat request
-    Orchestrator->>ChatManager: Get session history
-    ChatManager-->>Orchestrator: Return messages
+    Orchestrator->>ContextSys: Get system prompt
+    ContextSys-->>Orchestrator: Return context
+    Orchestrator->>ChatManager: Add user message + system context
     Orchestrator->>LLM: Send request with tools
     LLM-->>Orchestrator: Response with tool calls
 
     loop For each tool call
-        Orchestrator->>ToolExecutor: Execute tool
-        ToolExecutor->>Tools: Run tool logic
-        Tools-->>ToolExecutor: Return result
-        ToolExecutor-->>Orchestrator: Tool result
-        Orchestrator->>ChatManager: Add tool result to session
+        Orchestrator->>User: Request permission
+        User-->>Orchestrator: Approve/Deny/Allow All
+        alt Permission Granted
+            Orchestrator->>ToolExecutor: Execute tool
+            ToolExecutor->>Tools: Run tool logic
+            Tools-->>ToolExecutor: Return result
+            ToolExecutor-->>Orchestrator: Tool result
+            Orchestrator->>ChatManager: Add tool result to session
+        else Permission Denied
+            Orchestrator->>User: Abort session
+        end
     end
 
     Orchestrator->>LLM: Send updated context
     LLM-->>Orchestrator: Final response
     Orchestrator->>ChatManager: Add final message
-    Orchestrator-->>User: Return response
+    Orchestrator-->>User: Return session with abort capability
 ```
 
 ### 🧩 Components:
 - **Core**: Tool execution logic and validation
-- **Integrator**: Chat orchestration and session management
-- **Interfaces**: TypeScript type definitions for tool calling
+- **Integrator**: Chat orchestration, session management, and permission handling
+- **Interfaces**: TypeScript type definitions for all components
 - **Schemas**: Tool schema definitions for LLM integration
 - **Utils**: Utility functions for ID generation and common operations
 
@@ -81,15 +91,16 @@ sequenceDiagram
 
 ### 🚀 Running Tests
 
-#### **🌊 Streaming Test**
+#### **🎯 Main Example**
 ```bash
-npx tsx src/TestStream.ts
+npx tsx src/index.ts
 ```
 
-#### **📄 Non-Streaming Test**
-```bash
-npx tsx src/TestNonStream.ts
-```
+This demonstrates the complete toolkit with:
+- Permission system (denies TerminalCmd, approves FileCreate/FileEdit)
+- Streaming responses
+- Auto-abort after 3 seconds
+- All event callbacks
 
 ---
 
@@ -184,15 +195,53 @@ To edit the environment context:
 
 ---
 
-## ⚠️ Known Issues & Roadmap
+## 🔒 Permission System
 
-### Current Behavior
-- **Orchestrator Abort Issues**: The `Orchestrator.abort()` method delegates to `client.abort()` but doesn't handle cleanup of active tool executions or pending operations. When abort is called during tool execution, the orchestrator may not properly terminate running processes, leading to potential resource leaks or incomplete operations.
+The toolkit includes a permission system for controlling tool execution:
 
-### Planned Improvements
-- **Security Enhancement**: Add approval mechanism for tool execution to prevent unauthorized operations
-- **Orchestrator Refactor**: Improve abort handling and process management for better reliability
-- **Tool Execution Control**: Implement user confirmation system for sensitive operations
+### **Permission Actions**
+- **`approve`**: Allow this specific tool call
+- **`deny`**: Block this tool call and abort session
+- **`allow_all`**: Approve this call and all future calls in this session
+
+### **Example Usage**
+```typescript
+const session = await orchestrator.chat(message, {
+  onAskPermission: (data) => {
+    console.log(`Permission requested for: ${data.toolName}`)
+
+    // Custom permission logic
+    if (data.toolName === 'TerminalCmd') {
+      return { action: 'deny' } // Block terminal commands
+    }
+
+    return { action: 'approve' } // Allow everything else
+  },
+  // ... other options
+})
+```
+
+---
+
+## 🛑 Session Management
+
+### **Session Control**
+```typescript
+// Abort specific session
+session.abort()
+
+// Check if session is active
+const isActive = session.isActive()
+
+// Abort all sessions
+orchestrator.abort()
+```
+
+### **Session Lifecycle**
+1. **Auto-creation**: Sessions are created when you call `chat()`
+2. **Context injection**: System prompt is added on first message
+3. **Permission tracking**: Session remembers "allow all" settings
+4. **Termination**: Abort stops all operations
 
 ---
 
