@@ -7,6 +7,7 @@ import type {
   SchemaFileRename,
   SchemaFileSearch,
   SchemaGlobSearch,
+  SchemaGrepSearch,
   SchemaTerminalCmd,
   SchemaWebFetch
 } from '@root/interfaces/index'
@@ -18,6 +19,7 @@ import FileRead from '@core/base/FileRead'
 import FileRename from '@core/base/FileRename'
 import FileSearch from '@core/base/FileSearch'
 import GlobSearch from '@core/base/GlobSearch'
+import GrepSearch from '@core/base/GrepSearch'
 import TerminalCmd from '@core/base/TerminalCmd'
 import WebFetch from '@core/base/WebFetch'
 
@@ -51,6 +53,8 @@ export class ToolExecutor {
         return new FileSearch(args as SchemaFileSearch).execute()
       case 'GlobSearch':
         return new GlobSearch(args as SchemaGlobSearch).execute()
+      case 'GrepSearch':
+        return new GrepSearch(args as SchemaGrepSearch).execute()
       case 'TerminalCmd':
         return new TerminalCmd(args as SchemaTerminalCmd).execute()
       case 'WebFetch':

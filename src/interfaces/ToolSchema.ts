@@ -94,6 +94,35 @@ export interface SchemaGlobSearch {
 }
 
 /**
+ * Schema for content search operations using Ripgrep.
+ * @description Defines the structure for content search tool parameters.
+ */
+export interface SchemaGrepSearch {
+  /** The search pattern to find (string or regex) */
+  pattern: string
+  /** The working directory to search from */
+  workingDir?: string
+  /** Array of file types to search in */
+  fileTypes?: string[]
+  /** Array of file types to exclude from search */
+  excludeTypes?: string[]
+  /** Whether the search should be case-sensitive */
+  caseSensitive?: boolean
+  /** Whether to match only whole words */
+  wholeWord?: boolean
+  /** Whether to treat the pattern as a regular expression */
+  regex?: boolean
+  /** Number of context lines to show before and after each match (0-10) */
+  contextLines?: number
+  /** Maximum number of results to return (1-200) */
+  maxResults?: number
+  /** Maximum depth to search (0-20) */
+  maxDepth?: number
+  /** Array of patterns to exclude from search */
+  excludePatterns?: string[]
+}
+
+/**
  * Schema for file rename operations.
  * @description Defines the structure for file rename tool parameters.
  */

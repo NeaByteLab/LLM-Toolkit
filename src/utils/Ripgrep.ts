@@ -129,7 +129,7 @@ export function getPlatform(): PlatformResponse {
  * @returns The absolute path to the local ripgrep binary
  */
 export function resolveRipgrepBin(): string {
-  return join(scriptDir, '../bin', getBinaryName())
+  return join(scriptDir, '../../bin', getBinaryName())
 }
 
 /**
@@ -256,7 +256,7 @@ export async function downloadRipgrep(): Promise<void> {
       timeout: 60000,
       retries: 3
     })
-    const binDir: string = join(scriptDir, '../bin')
+    const binDir: string = join(scriptDir, '../../bin')
     await extractRipgrep(binDir)
     console.log('✅ Ripgrep extracted and setup successfully!')
   } catch (error) {

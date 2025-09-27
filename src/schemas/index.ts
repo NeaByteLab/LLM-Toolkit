@@ -7,6 +7,7 @@ import FileRead from '@schemas/FileRead'
 import FileRename from '@schemas/FileRename'
 import FileSearch from '@schemas/FileSearch'
 import GlobSearch from '@schemas/GlobSearch'
+import GrepSearch from '@schemas/GrepSearch'
 import TerminalCmd from '@schemas/TerminalCmd'
 import WebFetch from '@schemas/WebFetch'
 
@@ -23,6 +24,7 @@ export default [
   FileRename as ToolCall,
   FileSearch as ToolCall,
   GlobSearch as ToolCall,
+  GrepSearch as ToolCall,
   TerminalCmd as ToolCall,
   WebFetch as ToolCall
 ]

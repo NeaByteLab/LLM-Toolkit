@@ -17,7 +17,7 @@ import type {
 } from '@interfaces/Orchestrator'
 import { ToolExecutor } from '@core/index'
 import { ChatManager, ContextSys } from '@integrator/index'
-import { generateId } from '@utils/Generator'
+import { generateId, downloadRipgrep, resolveRipgrepPath } from '@utils/index'
 import allToolSchemas from '@schemas/index'
 
 /**
@@ -54,6 +54,23 @@ export class Orchestrator {
   }
 
   /**
+   * Initializes Ripgrep binary if not already available.
+   * @description Checks if Ripgrep is available locally, downloads it if needed.
+   * @throws {Error} When Ripgrep initialization fails
+   */
+  private async initializeRipgrep(): Promise<void> {
+    const ripgrepPath: string | null = resolveRipgrepPath()
+    if (ripgrepPath === null) {
+      try {
+        await downloadRipgrep()
+      } catch (error) {
+        const errorMessage: string = error instanceof Error ? error.message : 'Unknown error'
+        throw new Error(`Failed to download Ripgrep: ${errorMessage}`)
+      }
+    }
+  }
+
+  /**
    * Aborts all active sessions.
    * @description Marks all sessions as inactive and aborts the client.
    */
@@ -81,6 +98,7 @@ export class Orchestrator {
    * @throws {Error} When message processing fails or permission is denied
    */
   async chat(message: string, options: OrchestratorOptions): Promise<OrchestratorSession> {
+    await this.initializeRipgrep()
     const sessionId: string = this.chatManager.createSession()
     this.activeSessions.set(sessionId, true)
     const session: OrchestratorSession = {
