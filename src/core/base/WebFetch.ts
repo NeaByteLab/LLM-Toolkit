@@ -1,5 +1,4 @@
-import fetch, { FetchError } from '@neabyte/fetch'
-import type { FetchOptions, FetchResponse } from '@neabyte/fetch'
+import FetchClient, { FetchError } from '@neabyte/fetch'
 import type { SchemaWebFetch } from '@interfaces/index'
 
 /**
@@ -32,15 +31,17 @@ export default class WebFetch {
       return resValidate
     }
     try {
-      const options: FetchOptions = {
-        timeout: 15000,
-        retries: 1,
-        headers: {
-          'User-Agent': 'LLM-Toolkit/1.0'
-        },
-        responseType: 'text'
-      }
-      const content: FetchResponse<string> = await fetch.get<string>(this.url, options)
+      const content: Awaited<ReturnType<typeof FetchClient.get>> = await FetchClient.get<string>(
+        this.url,
+        {
+          timeout: 15000,
+          retries: 1,
+          headers: {
+            'User-Agent': 'LLM-Toolkit/1.0'
+          },
+          responseType: 'text'
+        }
+      )
       if (typeof content !== 'string') {
         return `Error! Invalid response format from URL: ${this.url}.`
       }
