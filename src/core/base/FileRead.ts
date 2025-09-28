@@ -3,26 +3,32 @@ import type { SchemaFileRead, SecurityPathResult } from '@interfaces/index'
 import { getSafePath, validateFileSize } from '@core/security/index'
 
 /**
- * Handles file reading operations with security validation.
- * @description Executes file reading with path validation and security checks to prevent directory traversal attacks.
+ * Handles file reading operations with security validation and line range support.
+ * @description Executes file reading with path validation, security checks, and optional line range filtering.
  */
 export default class FileRead {
   /** The file path to read */
   private readonly filePath: string
+  /** The starting line number (1-based) */
+  private readonly lineStart?: number | undefined
+  /** The ending line number (1-based) */
+  private readonly lineEnd?: number | undefined
 
   /**
    * Creates a new FileRead instance.
-   * @description Initializes the file read operation with file path parameter.
-   * @param args - The file read schema containing file path data
+   * @description Initializes the file read operation with file path and optional line range parameters.
+   * @param args - The file read schema containing file path and optional line range data
    */
   constructor(args: SchemaFileRead) {
-    const { filePath }: SchemaFileRead = args
+    const { filePath, lineStart, lineEnd }: SchemaFileRead = args
     this.filePath = filePath
+    this.lineStart = lineStart
+    this.lineEnd = lineEnd
   }
 
   /**
    * Executes the file read operation.
-   * @description Performs validation, security checks, and reads file content or returns error message.
+   * @description Performs validation, security checks, and reads file content with optional line range filtering.
    * @returns File content as string or error message if validation/reading fails
    * @throws {Error} When file system operations fail or validation errors occur
    */
@@ -49,15 +55,66 @@ export default class FileRead {
       if (content.length === 0) {
         return `Error! File is empty: ${this.filePath}.`
       }
-      return content
+      return this.filterContentByLines(content)
     } catch (error) {
       return `Error! Reading file ${this.filePath}: ${error instanceof Error ? error.message : 'Unknown error'}.`
     }
   }
 
   /**
-   * Validates the file path parameter.
-   * @description Checks that filePath is a valid non-empty string.
+   * Filters file content by line range.
+   * @description Extracts specific lines from file content based on lineStart and lineEnd parameters.
+   * @param content - The full file content
+   * @returns Filtered content with line numbers or full content if no range specified
+   */
+  private filterContentByLines(content: string): string {
+    const lines: string[] = content.split('\n')
+    const totalLines: number = lines.length
+    if (this.lineStart === undefined && this.lineEnd === undefined) {
+      if (totalLines > 1000) {
+        return `Error! File has ${totalLines} lines. Please use \`lineStart\` and \`lineEnd\` parameters to read specific line ranges (max 1000 lines at once).`
+      }
+      return content
+    }
+    if (this.lineStart !== undefined && this.lineStart < 1) {
+      return `Error! \`lineStart\` must be 1 or greater, got ${this.lineStart}.`
+    }
+    if (this.lineEnd !== undefined && this.lineEnd < 1) {
+      return `Error! \`lineEnd\` must be 1 or greater, got ${this.lineEnd}.`
+    }
+    if (
+      this.lineStart !== undefined &&
+      this.lineEnd !== undefined &&
+      this.lineStart > this.lineEnd
+    ) {
+      return `Error! \`lineStart\` (${this.lineStart}) cannot be greater than \`lineEnd\` (${this.lineEnd}).`
+    }
+    const startLine: number = this.lineStart ?? 1
+    const endLine: number = this.lineEnd ?? totalLines
+    if (startLine > totalLines) {
+      return `Error! \`lineStart\` (${startLine}) exceeds file length (${totalLines} lines).`
+    }
+    const requestedLines: number = endLine - startLine + 1
+    if (requestedLines > 1000) {
+      return `Error! Requested range has ${requestedLines} lines. Please limit to 1000 lines or less per request.`
+    }
+    const startIndex: number = startLine - 1
+    const endIndex: number = Math.min(endLine, totalLines)
+    const selectedLines: string[] = lines.slice(startIndex, endIndex)
+    if (this.lineStart !== undefined || this.lineEnd !== undefined) {
+      return selectedLines
+        .map((line: string, index: number) => {
+          const lineNumber: number = startLine + index
+          return `${lineNumber.toString().padStart(4, ' ')} | ${line}`
+        })
+        .join('\n')
+    }
+    return selectedLines.join('\n')
+  }
+
+  /**
+   * Validates the file path and line range parameters.
+   * @description Checks that filePath is valid and line range parameters are within acceptable bounds.
    * @returns 'ok' if validation passes, error message if validation fails
    */
   private validate(): string {
@@ -66,6 +123,19 @@ export default class FileRead {
     }
     if (this.filePath.trim().length === 0) {
       return '`filePath` cannot be empty.'
+    }
+    if (this.lineStart !== undefined && (!Number.isInteger(this.lineStart) || this.lineStart < 1)) {
+      return '`lineStart` must be a positive integer.'
+    }
+    if (this.lineEnd !== undefined && (!Number.isInteger(this.lineEnd) || this.lineEnd < 1)) {
+      return '`lineEnd` must be a positive integer.'
+    }
+    if (
+      this.lineStart !== undefined &&
+      this.lineEnd !== undefined &&
+      this.lineStart > this.lineEnd
+    ) {
+      return '`lineStart` cannot be greater than `lineEnd`.'
     }
     return 'ok'
   }

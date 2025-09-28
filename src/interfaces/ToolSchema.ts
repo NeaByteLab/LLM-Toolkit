@@ -49,6 +49,10 @@ export interface SchemaFileEdit {
 export interface SchemaFileRead {
   /** The file path to read */
   filePath: string
+  /** The starting line number (1-based) to begin reading from */
+  lineStart?: number | undefined
+  /** The ending line number (1-based) to stop reading at */
+  lineEnd?: number | undefined
 }
 
 /**
