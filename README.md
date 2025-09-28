@@ -75,7 +75,13 @@ sequenceDiagram
    - Sign up at [ollama.com](https://ollama.com)
    - Create an API key by visiting [ollama.com/settings/keys](https://ollama.com/settings/keys)
 
-2. **⚙️ Environment Setup**
+2. **📦 Clone Repository**
+   ```bash
+   git clone https://github.com/NeaByteLab/LLM-Toolkit.git
+   cd LLM-Toolkit
+   ```
+
+3. **⚙️ Environment Setup**
    ```bash
    # Create environment file
    echo "OLLAMA_KEY=your_api_key_here" > .env
@@ -84,7 +90,7 @@ sequenceDiagram
    # OLLAMA_KEY=your_actual_api_key_here
    ```
 
-3. **📦 Install Dependencies**
+4. **📦 Install Dependencies**
    ```bash
    npm install
    ```
@@ -93,7 +99,7 @@ sequenceDiagram
 
 #### **🎯 Main Example**
 ```bash
-npx tsx [src/index.ts](src/index.ts)
+npx tsx ./src/index.ts
 ```
 
 This demonstrates the complete toolkit with:

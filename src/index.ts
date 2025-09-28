@@ -35,14 +35,14 @@ function getClient(): Orchestrator {
  */
 async function main(): Promise<void> {
   const ollamaClient: Orchestrator = getClient()
-  const ollamaPrompt: string = 'check my redis processs on terminal'
+  const ollamaPrompt: string =
+    'check my redis processs on terminal, then create file called test.txt and write "Hello, world!" in it'
   const ollamaSession: OrchestratorSession = await ollamaClient.chat(ollamaPrompt, {
     onAskPermission: (data: OrchestratorPermission): Promise<OrchestratorPermissionResponse> => {
+      const blacklistedTools: string[] = ['FileCreate', 'FileEdit']
       console.log(`🔒 Permission Request: ${data.toolName}`)
-      if (data.toolName === 'TerminalCmd') {
+      if (blacklistedTools.includes(data.toolName)) {
         return Promise.resolve({ action: 'deny' })
-      } else if (data.toolName === 'FileCreate' || data.toolName === 'FileEdit') {
-        return Promise.resolve({ action: 'approve' })
       } else {
         return Promise.resolve({ action: 'approve' })
       }
@@ -75,6 +75,11 @@ async function main(): Promise<void> {
     console.log('⏰ Auto-aborting after 3 seconds...')
     ollamaSession.abort()
     console.log(`✅ Session active: ${ollamaSession.isActive()}`)
+    if (ollamaSession.isActive()) {
+      console.log('🔴 Session is still active')
+    } else {
+      process.exit(0)
+    }
   }, 3000)
 }
 
