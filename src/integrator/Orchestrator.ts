@@ -353,10 +353,10 @@ export class Orchestrator {
     if (chunk.thinking !== undefined && chunk.thinking.length > 0) {
       options.onThinking?.(chunk.thinking)
     }
-    if (chunk.message?.content != null && currentMessage !== null) {
+    if (chunk.message?.content != null && chunk.message.content.length > 0) {
       options.onMessage?.({
         content: chunk.message.content,
-        role: currentMessage.role ?? 'assistant'
+        role: currentMessage?.role ?? 'assistant'
       })
     }
   }
