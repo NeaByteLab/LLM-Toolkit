@@ -73,22 +73,22 @@ export default class FileCreate {
    */
   private validate(): string {
     if (typeof this.filePath !== 'string') {
-      return '`filePath` must be a string.'
+      return 'Invalid: `filePath` must be a string.'
     }
     if (typeof this.content !== 'string') {
-      return '`content` must be a string.'
+      return 'Invalid: `content` must be a string.'
     }
     if (typeof this.instructions !== 'string') {
-      return '`instructions` must be a string.'
+      return 'Invalid: `instructions` must be a string.'
     }
     if (this.filePath.trim().length === 0) {
-      return '`filePath` cannot be empty.'
+      return 'Invalid: `filePath` cannot be empty.'
     }
     if (this.content.trim().length === 0) {
-      return '`content` cannot be empty.'
+      return 'Invalid: `content` cannot be empty.'
     }
     if (this.instructions.trim().length === 0) {
-      return '`instructions` cannot be empty.'
+      return 'Invalid: `instructions` cannot be empty.'
     }
     return 'ok'
   }

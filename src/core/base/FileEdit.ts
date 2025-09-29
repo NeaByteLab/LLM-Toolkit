@@ -114,25 +114,25 @@ export default class FileEdit {
    */
   private validate(): string {
     if (typeof this.filePath !== 'string') {
-      return '`filePath` must be a string.'
+      return 'Invalid: `filePath` must be a string.'
     }
     if (typeof this.oldString !== 'string') {
-      return '`oldString` must be a string.'
+      return 'Invalid: `oldString` must be a string.'
     }
     if (typeof this.newString !== 'string') {
-      return '`newString` must be a string.'
+      return 'Invalid: `newString` must be a string.'
     }
     if (this.filePath.trim().length === 0) {
-      return '`filePath` cannot be empty.'
+      return 'Invalid: `filePath` cannot be empty.'
     }
     if (this.oldString.trim().length === 0) {
-      return '`oldString` cannot be empty.'
+      return 'Invalid: `oldString` cannot be empty.'
     }
     if (this.newString.trim().length === 0) {
-      return '`newString` cannot be empty.'
+      return 'Invalid: `newString` cannot be empty.'
     }
     if (this.oldString === this.newString) {
-      return '`oldString` and `newString` must be different.'
+      return 'Invalid: `oldString` and `newString` must be different.'
     }
     return 'ok'
   }

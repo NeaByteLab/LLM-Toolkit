@@ -2,6 +2,7 @@ import { exec } from 'node:child_process'
 import { promisify } from 'node:util'
 import type { SchemaTerminalCmd, SecurityPathResult } from '@interfaces/index'
 import { getSafePath } from '@core/security/index'
+import { dangerousCommands } from '@core/security/Constant'
 
 /**
  * Promisified exec function for executing commands asynchronously.
@@ -82,21 +83,23 @@ export default class TerminalCmd {
           }, this.timeout)
         })
       ])
-      const output: string = stdout + (stderr ? `\nSTDERR:\n${stderr}` : '')
-      return `Exit code: 0\nOutput:\n${output}`
+      if (stderr && stderr.length > 0) {
+        return `${stdout}\n${stderr}`
+      }
+      return stdout
     } catch (error) {
       if (error instanceof Error && error.message.includes('timed out')) {
-        throw error
+        return `Error! Command timed out after ${this.timeout}ms`
       }
       const execError: { stdout?: string; stderr?: string; code?: number } = error as {
         stdout?: string
         stderr?: string
         code?: number
       }
-      const output: string =
-        (execError.stdout ?? '') +
-        (execError.stderr != null ? `\nSTDERR:\n${execError.stderr}` : '')
-      return `Exit code: ${execError.code ?? 1}\nOutput:\n${output}`
+      if (execError.stderr != null && execError.stderr.length > 0) {
+        return `${execError.stdout ?? ''}\n${execError.stderr}`
+      }
+      return execError.stdout ?? ''
     }
   }
 
@@ -107,25 +110,45 @@ export default class TerminalCmd {
    */
   private validate(): string {
     if (typeof this.command !== 'string') {
-      return '`command` must be a string.'
+      return 'Invalid: `command` must be a string.'
     }
     if (this.command.trim().length === 0) {
-      return '`command` cannot be empty.'
+      return 'Invalid: `command` cannot be empty.'
     }
     if (this.workingDir !== undefined && typeof this.workingDir !== 'string') {
-      return '`workingDir` must be a string.'
+      return 'Invalid: `workingDir` must be a string.'
     }
     if (this.workingDir !== undefined && this.workingDir.trim().length === 0) {
-      return '`workingDir` cannot be empty.'
+      return 'Invalid: `workingDir` cannot be empty.'
     }
     if (typeof this.timeout !== 'number') {
-      return '`timeout` must be a number.'
+      return 'Invalid: `timeout` must be a number.'
     }
     if (this.timeout < 30000) {
-      return '`timeout` must be at least 30000ms (30 seconds).'
+      return 'Invalid: `timeout` must be at least 30000ms (30 seconds).'
     }
     if (this.timeout > 300000) {
-      return '`timeout` must be at most 300000ms (5 minutes).'
+      return 'Invalid: `timeout` must be at most 300000ms (5 minutes).'
+    }
+    const commandValidation: string = this.validateCommand(this.command)
+    if (commandValidation !== 'ok') {
+      return commandValidation
+    }
+    return 'ok'
+  }
+
+  /**
+   * Validates the command against dangerous commands.
+   * @description Checks if the command contains any dangerous patterns.
+   * @param command - The command to validate
+   * @returns 'ok' if command is safe, error message if dangerous
+   */
+  private validateCommand(command: string): string {
+    const trimmedCommand: string = command.trim().toLowerCase()
+    for (const dangerousCommand of dangerousCommands) {
+      if (trimmedCommand.includes(dangerousCommand.toLowerCase())) {
+        return 'Invalid: Command contains dangerous pattern!'
+      }
     }
     return 'ok'
   }

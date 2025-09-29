@@ -49,11 +49,18 @@ export default class FileRead {
         return `Error! File not found: ${this.filePath}.`
       }
       if (sizeValidation.valid === false) {
-        return `Error! File too large: ${this.filePath}. Maximum file size is 1MB.`
+        return `Error! File too large: ${this.filePath}. Maximum file size is 200KB.`
       }
       const content: string = await readFile(safePath.path, 'utf8')
       if (content.length === 0) {
         return `Error! File is empty: ${this.filePath}.`
+      }
+      if (content.length > 10000) {
+        const lines: string[] = content.split('\n')
+        if (lines.length === 1) {
+          return `Error! File has ${content.length} characters in a single line (likely minified). System only supports reading files up to 10,000 characters at once.`
+        }
+        return `Error! File has ${content.length} characters. System only supports reading files up to 10,000 characters at once.`
       }
       return this.filterContentByLines(content)
     } catch (error) {
@@ -94,6 +101,9 @@ export default class FileRead {
     if (startLine > totalLines) {
       return `Error! \`lineStart\` (${startLine}) exceeds file length (${totalLines} lines).`
     }
+    if (this.lineEnd !== undefined && this.lineEnd > totalLines) {
+      return `Error! \`lineEnd\` (${this.lineEnd}) exceeds file length (${totalLines} lines).`
+    }
     const requestedLines: number = endLine - startLine + 1
     if (requestedLines > 1000) {
       return `Error! Requested range has ${requestedLines} lines. Please limit to 1000 lines or less per request.`
@@ -119,23 +129,23 @@ export default class FileRead {
    */
   private validate(): string {
     if (typeof this.filePath !== 'string') {
-      return '`filePath` must be a string.'
+      return 'Invalid: `filePath` must be a string.'
     }
     if (this.filePath.trim().length === 0) {
-      return '`filePath` cannot be empty.'
+      return 'Invalid: `filePath` cannot be empty.'
     }
     if (this.lineStart !== undefined && (!Number.isInteger(this.lineStart) || this.lineStart < 1)) {
-      return '`lineStart` must be a positive integer.'
+      return 'Invalid: `lineStart` must be a positive integer.'
     }
     if (this.lineEnd !== undefined && (!Number.isInteger(this.lineEnd) || this.lineEnd < 1)) {
-      return '`lineEnd` must be a positive integer.'
+      return 'Invalid: `lineEnd` must be a positive integer.'
     }
     if (
       this.lineStart !== undefined &&
       this.lineEnd !== undefined &&
       this.lineStart > this.lineEnd
     ) {
-      return '`lineStart` cannot be greater than `lineEnd`.'
+      return 'Invalid: `lineStart` cannot be greater than `lineEnd`.'
     }
     return 'ok'
   }

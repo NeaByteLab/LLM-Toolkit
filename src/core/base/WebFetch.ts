@@ -113,15 +113,15 @@ export default class WebFetch {
    */
   private validate(): string {
     if (typeof this.url !== 'string') {
-      return '`url` must be a string.'
+      return 'Invalid: `url` must be a string.'
     }
     if (this.url.trim().length === 0) {
-      return '`url` cannot be empty.'
+      return 'Invalid: `url` cannot be empty.'
     }
     try {
       const urlObj: URL = new URL(this.url)
       if (urlObj.protocol !== 'http:' && urlObj.protocol !== 'https:') {
-        return '`url` must use http:// or https:// protocol only.'
+        return 'Invalid: `url` must use http:// or https:// protocol only.'
       }
       if (
         urlObj.hostname === 'localhost' ||
@@ -130,11 +130,11 @@ export default class WebFetch {
         urlObj.hostname.startsWith('10.') ||
         urlObj.hostname.startsWith('172.')
       ) {
-        return '`url` cannot point to localhost or private IP addresses.'
+        return 'Invalid: `url` cannot point to localhost or private IP addresses.'
       }
       return 'ok'
     } catch {
-      return '`url` must be a valid URL format (e.g., https://example.com).'
+      return 'Invalid: `url` must be a valid URL format (e.g., https://example.com).'
     }
   }
 }

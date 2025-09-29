@@ -212,10 +212,10 @@ export default class DirectoryList {
    */
   private validate(): string {
     if (typeof this.directoryPath !== 'string') {
-      return '`directoryPath` must be a string.'
+      return 'Invalid: `directoryPath` must be a string.'
     }
     if (this.directoryPath.trim().length === 0) {
-      return '`directoryPath` cannot be empty.'
+      return 'Invalid: `directoryPath` cannot be empty.'
     }
     return 'ok'
   }

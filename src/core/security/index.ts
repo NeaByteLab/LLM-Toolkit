@@ -75,7 +75,7 @@ export function isPathSafe(path: string): boolean {
 
 /**
  * Validates file size for reading operations.
- * @description Checks if file size is within acceptable limits (1MB max).
+ * @description Checks if file size is within acceptable limits (200KB max).
  * @param filePath - The file path to check
  * @returns Promise that resolves to true if file size is acceptable, false if too large
  */
@@ -87,7 +87,7 @@ export async function validateFileSize(
     if (typeof stats.size !== 'number') {
       return { valid: false, exists: true }
     }
-    return { valid: stats.size <= 1024 * 1024, exists: true }
+    return { valid: stats.size <= 200 * 1024, exists: true }
   } catch (error) {
     if (error instanceof Error && 'code' in error && error.code === 'ENOENT') {
       return { valid: false, exists: false }

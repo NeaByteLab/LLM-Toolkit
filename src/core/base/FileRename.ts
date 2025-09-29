@@ -73,19 +73,19 @@ export default class FileRename {
    */
   private validate(): string {
     if (typeof this.oldFilename !== 'string') {
-      return '`oldFilename` must be a string.'
+      return 'Invalid: `oldFilename` must be a string.'
     }
     if (this.oldFilename.trim().length === 0) {
-      return '`oldFilename` cannot be empty.'
+      return 'Invalid: `oldFilename` cannot be empty.'
     }
     if (typeof this.newFilename !== 'string') {
-      return '`newFilename` must be a string.'
+      return 'Invalid: `newFilename` must be a string.'
     }
     if (this.newFilename.trim().length === 0) {
-      return '`newFilename` cannot be empty.'
+      return 'Invalid: `newFilename` cannot be empty.'
     }
     if (this.oldFilename === this.newFilename) {
-      return '`oldFilename` and `newFilename` cannot be the same.'
+      return 'Invalid: `oldFilename` and `newFilename` cannot be the same.'
     }
     return 'ok'
   }

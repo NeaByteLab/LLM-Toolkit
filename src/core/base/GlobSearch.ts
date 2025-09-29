@@ -130,17 +130,17 @@ export default class GlobSearch {
    */
   private validatePatterns(): string {
     if (!Array.isArray(this.patterns)) {
-      return '`patterns` must be an array.'
+      return 'Invalid: `patterns` must be an array.'
     }
     if (this.patterns.length === 0) {
-      return '`patterns` cannot be empty.'
+      return 'Invalid: `patterns` cannot be empty.'
     }
     for (const pattern of this.patterns) {
       if (typeof pattern !== 'string') {
-        return 'All patterns must be strings.'
+        return 'Invalid: All patterns must be strings.'
       }
       if (pattern.trim().length === 0) {
-        return 'Patterns cannot be empty.'
+        return 'Invalid: Patterns cannot be empty.'
       }
     }
     return 'ok'

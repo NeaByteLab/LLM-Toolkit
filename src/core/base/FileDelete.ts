@@ -59,10 +59,10 @@ export default class FileDelete {
    */
   private validate(): string {
     if (typeof this.filePath !== 'string') {
-      return '`filePath` must be a string.'
+      return 'Invalid: `filePath` must be a string.'
     }
     if (this.filePath.trim().length === 0) {
-      return '`filePath` cannot be empty.'
+      return 'Invalid: `filePath` cannot be empty.'
     }
     return 'ok'
   }

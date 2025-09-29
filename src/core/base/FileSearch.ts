@@ -341,13 +341,13 @@ export default class FileSearch {
    */
   private validateSearchTerm(): string {
     if (typeof this.searchTerm !== 'string') {
-      return '`searchTerm` must be a string.'
+      return 'Invalid: `searchTerm` must be a string.'
     }
     if (this.searchTerm.trim().length === 0) {
-      return '`searchTerm` cannot be empty.'
+      return 'Invalid: `searchTerm` cannot be empty.'
     }
     if (this.searchTerm.length > 100) {
-      return '`searchTerm` cannot be longer than 100 characters.'
+      return 'Invalid: `searchTerm` cannot be longer than 100 characters.'
     }
     return 'ok'
   }
@@ -359,10 +359,10 @@ export default class FileSearch {
    */
   private validateWorkingDir(): string {
     if (this.workingDir !== undefined && typeof this.workingDir !== 'string') {
-      return '`workingDir` must be a string.'
+      return 'Invalid: `workingDir` must be a string.'
     }
     if (this.workingDir !== undefined && this.workingDir.trim().length === 0) {
-      return '`workingDir` cannot be empty.'
+      return 'Invalid: `workingDir` cannot be empty.'
     }
     return 'ok'
   }
@@ -374,16 +374,16 @@ export default class FileSearch {
    */
   private validateBooleanOptions(): string {
     if (typeof this.caseSensitive !== 'boolean') {
-      return '`caseSensitive` must be a boolean.'
+      return 'Invalid: `caseSensitive` must be a boolean.'
     }
     if (typeof this.onlyFiles !== 'boolean') {
-      return '`onlyFiles` must be a boolean.'
+      return 'Invalid: `onlyFiles` must be a boolean.'
     }
     if (typeof this.onlyDirectories !== 'boolean') {
-      return '`onlyDirectories` must be a boolean.'
+      return 'Invalid: `onlyDirectories` must be a boolean.'
     }
     if (typeof this.includeExtensions !== 'boolean') {
-      return '`includeExtensions` must be a boolean.'
+      return 'Invalid: `includeExtensions` must be a boolean.'
     }
     return 'ok'
   }
@@ -395,10 +395,10 @@ export default class FileSearch {
    */
   private validateMaxDepth(): string {
     if (this.maxDepth !== undefined && typeof this.maxDepth !== 'number') {
-      return '`maxDepth` must be a number.'
+      return 'Invalid: `maxDepth` must be a number.'
     }
     if (this.maxDepth !== undefined && (this.maxDepth < 0 || this.maxDepth > 20)) {
-      return '`maxDepth` must be between 0 and 20.'
+      return 'Invalid: `maxDepth` must be between 0 and 20.'
     }
     return 'ok'
   }
@@ -410,10 +410,10 @@ export default class FileSearch {
    */
   private validateMaxResults(): string {
     if (typeof this.maxResults !== 'number') {
-      return '`maxResults` must be a number.'
+      return 'Invalid: `maxResults` must be a number.'
     }
     if (this.maxResults < 1 || this.maxResults > 20) {
-      return '`maxResults` must be between 1 and 20.'
+      return 'Invalid: `maxResults` must be between 1 and 20.'
     }
     return 'ok'
   }
@@ -425,7 +425,7 @@ export default class FileSearch {
    */
   private validateOptionConflicts(): string {
     if (this.onlyFiles && this.onlyDirectories) {
-      return 'Cannot set both `onlyFiles` and `onlyDirectories` to true.'
+      return 'Invalid: Cannot set both `onlyFiles` and `onlyDirectories` to true.'
     }
     return 'ok'
   }
