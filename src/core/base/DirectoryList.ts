@@ -1,5 +1,5 @@
 import type { Stats } from 'node:fs'
-import { readdir, stat } from 'node:fs/promises'
+import { readFile, readdir, stat } from 'node:fs/promises'
 import type { SchemaDirectoryList, SecurityPathResult } from '@interfaces/index'
 import { getSafePath } from '@core/security/index'
 
@@ -54,11 +54,11 @@ export default class DirectoryList {
   }
 
   /**
-   * Formats directory contents with file/directory indicators.
-   * @description Adds visual indicators to distinguish between files and directories.
+   * Formats directory contents with file/directory indicators and file information.
+   * @description Adds visual indicators, file size/line count, and directory item counts.
    * @param safePath - The validated safe path
    * @param contents - Array of directory contents
-   * @returns Formatted string with file/directory indicators
+   * @returns Formatted string with file/directory indicators and file info
    */
   private async formatContents(safePath: string, contents: string[]): Promise<string> {
     const itemsWithTypes: string[] = []
@@ -67,9 +67,11 @@ export default class DirectoryList {
         const itemPath: string = `${safePath}/${item}`
         const stats: Stats = await stat(itemPath)
         if (stats.isDirectory()) {
-          itemsWithTypes.push(`📁 ${item}/`)
+          const itemCount: number = await this.getDirectoryItemCount(itemPath)
+          itemsWithTypes.push(`📁 ${item}/ (${itemCount} items)`)
         } else if (stats.isFile()) {
-          itemsWithTypes.push(`📄 ${item}`)
+          const fileInfo: string = await this.getFileInfo(itemPath, stats)
+          itemsWithTypes.push(`📄 ${item}${fileInfo}`)
         } else {
           itemsWithTypes.push(`❓ ${item}`)
         }
@@ -78,6 +80,66 @@ export default class DirectoryList {
       }
     }
     return itemsWithTypes.join('\n')
+  }
+
+  /**
+   * Gets file information including size and line count.
+   * @description Calculates file size and line count for text files.
+   * @param filePath - The path to the file
+   * @param stats - File statistics
+   * @returns Formatted file information string
+   */
+  private async getFileInfo(filePath: string, stats: Stats): Promise<string> {
+    const size: string = this.formatFileSize(stats.size)
+    const lineCount: number = await this.getLineCount(filePath)
+    return ` (${size}, ${lineCount} lines)`
+  }
+
+  /**
+   * Formats file size in human-readable format.
+   * @description Converts bytes to appropriate units (B, KB, MB, GB).
+   * @param bytes - File size in bytes
+   * @returns Formatted size string
+   */
+  private formatFileSize(bytes: number): string {
+    if (bytes === 0) {
+      return '0B'
+    }
+    const units: string[] = ['B', 'KB', 'MB', 'GB']
+    const k: number = 1024
+    const i: number = Math.floor(Math.log(bytes) / Math.log(k))
+    const size: number = bytes / Math.pow(k, i)
+    return `${Math.round(size)}${units[i]}`
+  }
+
+  /**
+   * Gets line count for a text file.
+   * @description Counts lines in text files, returns 0 for binary files.
+   * @param filePath - The path to the file
+   * @returns Number of lines in the file
+   */
+  private async getLineCount(filePath: string): Promise<number> {
+    try {
+      const content: string = await readFile(filePath, 'utf8')
+      return content.split('\n').length
+    } catch {
+      return 0
+    }
+  }
+
+  /**
+   * Gets the total number of items in a directory.
+   * @description Counts files and subdirectories in the specified directory.
+   * @param dirPath - The path to the directory
+   * @returns Number of items in the directory
+   */
+  private async getDirectoryItemCount(dirPath: string): Promise<number> {
+    try {
+      const contents: string[] = await readdir(dirPath)
+      return contents.length
+    } catch {
+      return 0
+    }
   }
 
   /**
