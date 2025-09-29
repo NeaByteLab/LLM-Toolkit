@@ -96,13 +96,13 @@ export default class FileEdit {
     if (occurrences > 1) {
       return {
         success: false,
-        message: `Error! The \`oldString\` appears ${occurrences} times in the file. Please provide more context to make it unique.`
+        message: `Error! The \`oldString\` appears ${occurrences} times in the file. Please provide more context to make it specific.`
       }
     }
     const newContent: string = fileContent.replace(this.oldString, this.newString)
     return {
       success: true,
-      message: 'Search and replace completed successfully.',
+      message: 'Search and replace completed.',
       newContent
     }
   }

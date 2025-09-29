@@ -17,7 +17,7 @@ const execAsync: (
 
 /**
  * Handles terminal command execution with security validation and timeout protection.
- * @description Executes terminal commands with comprehensive security checks and timeout handling.
+ * @description Executes terminal commands with extensive security checks and timeout handling.
  */
 export default class TerminalCmd {
   /** The command to execute */

@@ -31,7 +31,7 @@ export class Encoder implements EmbeddingExtractor {
    * Initialize the embedding pipeline with the specified model.
    * @description Loads and prepares the transformer model.
    * @param model - Model identifier for the pipeline (defaults to all-MiniLM-L6-v2)
-   * @returns Promise resolving when initialization is complete
+   * @returns Promise resolving when initialization is done
    * @throws {Error} When model loading fails or initialization encounters an error
    */
   async initialize(model: string = defaultModel): Promise<void> {

@@ -14,7 +14,7 @@ export default {
         url: {
           type: 'string',
           description:
-            'The complete URL to fetch. Must include protocol (http:// or https://). Examples: "https://api.github.com/user", "https://jsonplaceholder.typicode.com/posts/1".'
+            'The URL to fetch. Must include protocol (http:// or https://). Examples: "https://api.github.com/user", "https://jsonplaceholder.typicode.com/posts/1".'
         }
       },
       required: ['url']

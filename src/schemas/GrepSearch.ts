@@ -1,13 +1,13 @@
 /**
  * Tool schema for content search operations using Ripgrep.
- * @description Defines the schema for searching file contents using Ripgrep for fast, powerful text search.
+ * @description Defines the schema for searching file contents using Ripgrep for text search.
  */
 export default {
   type: 'function',
   function: {
     name: 'GrepSearch',
     description:
-      'Use this tool to search for text content within files using Ripgrep. This tool provides fast, powerful text search with regex support, file filtering, and advanced search options.\n\nWHEN TO USE:\n- You need to find specific text content within files\n- You want to search for code patterns, functions, or variables\n- You need regex pattern matching for complex searches\n- You want to search across multiple file types simultaneously\n- You need fast search performance on large codebases\n\nWHEN NOT TO USE:\n- Use FileSearch if you only know part of a filename\n- Use GlobSearch if you want to find files by pattern\n- Use DirectoryList if you want to explore directory structure\n\nSEARCH EXAMPLES:\n- "function calculateTotal" - Find function definitions\n- "import.*react" - Find React imports using regex\n- "TODO|FIXME" - Find TODO or FIXME comments\n- "console\\.log" - Find console.log statements (escaped regex)\n- "class.*Component" - Find class definitions containing "Component"\n\nRIPGREP FEATURES:\n- Ultra-fast text search (10x faster than grep)\n- Full regex support with PCRE2 syntax\n- Smart case handling and Unicode support\n- File type filtering and exclusion patterns\n- Context lines before/after matches\n- Line number and column information\n\nSECURITY CONSIDERATIONS:\n- Only searches within the project directory\n- Dangerous patterns are automatically blocked\n- Path traversal attempts are prevented\n- System directories are restricted\n- Large result sets are limited to prevent memory issues\n\nThis tool will return matching lines with file paths, line numbers, and context.',
+      'Use this tool to search for text content within files using Ripgrep. This tool provides text search with regex support, file filtering, and extended search options.\n\nWHEN TO USE:\n- You need to find specific text content within files\n- You want to search for code patterns, functions, or variables\n- You need regex pattern matching for complex searches\n- You want to search across multiple file types simultaneously\n- You need search performance on large codebases\n\nWHEN NOT TO USE:\n- Use FileSearch if you only know part of a filename\n- Use GlobSearch if you want to find files by pattern\n- Use DirectoryList if you want to explore directory structure\n\nSEARCH EXAMPLES:\n- "function calculateTotal" - Find function definitions\n- "import.*react" - Find React imports using regex\n- "TODO|FIXME" - Find TODO or FIXME comments\n- "console\\.log" - Find console.log statements (escaped regex)\n- "class.*Component" - Find class definitions containing "Component"\n\nRIPGREP FEATURES:\n- Text search using Ripgrep\n- Full regex support with PCRE2 syntax\n- Case handling and Unicode support\n- File type filtering and exclusion patterns\n- Context lines before/after matches\n- Line number and column information\n\nSECURITY CONSIDERATIONS:\n- Only searches within the project directory\n- Dangerous patterns are automatically blocked\n- Path traversal attempts are prevented\n- System directories are restricted\n- Large result sets are limited to prevent memory issues\n\nThis tool will return matching lines with file paths, line numbers, and context.',
     parameters: {
       type: 'object',
       properties: {
@@ -61,7 +61,7 @@ export default {
         regex: {
           type: 'boolean',
           description:
-            'Whether to treat the pattern as a regular expression. When true, supports advanced regex features. Defaults to false for simple string matching.',
+            'Whether to treat the pattern as a regular expression. When true, supports extended regex features. Defaults to false for simple string matching.',
           default: false
         },
         contextLines: {
@@ -75,7 +75,7 @@ export default {
         maxResults: {
           type: 'number',
           description:
-            'Maximum number of results to return. Defaults to 50. Use smaller numbers for faster searches on large codebases.',
+            'Maximum number of results to return. Defaults to 50. Use smaller numbers for quicker searches on large codebases.',
           minimum: 1,
           maximum: 200,
           default: 50

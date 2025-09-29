@@ -4,7 +4,7 @@ import { getSafePath } from '@core/security/index'
 
 /**
  * Handles glob pattern file search operations with security validation.
- * @description Searches for files using glob patterns with comprehensive security checks and fast-glob integration.
+ * @description Searches for files using glob patterns with security checks and fast-glob integration.
  */
 export default class GlobSearch {
   /** Array of glob patterns to search for */

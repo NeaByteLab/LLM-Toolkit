@@ -1,11 +1,11 @@
 /**
  * Interface for successful path validation result.
- * @description Represents a successfully validated and secured path.
+ * @description Represents a validated and secured path.
  */
 export interface SecurityPathSuccess {
   /** Indicates the path validation was successful */
   success: true
-  /** The validated and secured path */
+  /** The validated path */
   path: string
 }
 

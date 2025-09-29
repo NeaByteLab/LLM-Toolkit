@@ -40,7 +40,7 @@ export interface EmbeddingExtractor {
   /**
    * Initialize the embedding pipeline.
    * @param model - Model identifier for the pipeline
-   * @returns Promise resolving when initialization is complete
+   * @returns Promise resolving when initialization is done
    */
   initialize(model?: string): Promise<void>
 
@@ -67,7 +67,7 @@ export interface EmbeddingQuery {
  * @description Represents a stored embedding with metadata.
  */
 export interface EmbeddingStored {
-  /** Unique identifier for the embedding */
+  /** Identifier for the embedding */
   id: string
   /** The embedding vector */
   vector: number[]

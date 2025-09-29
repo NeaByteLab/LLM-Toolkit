@@ -2,9 +2,9 @@ import { randomBytes } from 'node:crypto'
 
 /**
  * Generates a unique identifier with timestamp and random components.
- * @description Creates a unique ID by combining a prefix, timestamp, and random bytes.
+ * @description Creates an ID by combining a prefix, timestamp, and random bytes.
  * @param prefix - The prefix for the generated ID (must be alphanumeric with underscores, 1-50 characters)
- * @returns A unique identifier string in format: prefix_timestamp_random
+ * @returns An identifier string in format: prefix_timestamp_random
  * @throws {Error} When prefix is invalid or not a string
  */
 export function generateId(prefix: string): string {

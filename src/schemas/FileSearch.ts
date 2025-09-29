@@ -7,7 +7,7 @@ export default {
   function: {
     name: 'FileSearch',
     description:
-      'Use this tool to search for files using fuzzy filename matching. This tool finds files by partial name, extension, or pattern matching when you know PART of a filename but not the exact path.\n\nWHEN TO USE:\n- You know part of a filename but not the exact path\n- You want to find files by partial name or extension\n- You need fuzzy matching for typos or variations\n- You want to search for files without knowing the exact directory structure\n\nWHEN NOT TO USE:\n- Use GlobSearch instead if you know the exact pattern (more efficient)\n- Use DirectoryList if you want to explore a specific directory\n- Use FileRead if you already know the exact file path\n\nSEARCH EXAMPLES:\n- "config" - finds config.json, config.ts, my-config.js, etc.\n- ".env" - finds .env, .env.local, .env.production, etc.\n- "test" - finds test.ts, user.test.js, integration-tests/, etc.\n- "component" - finds Component.tsx, user-component.vue, etc.\n\nFUZZY MATCHING:\n- Supports partial matches and typos\n- Case-insensitive by default (configurable)\n- Matches anywhere in the filename\n- Includes file extensions in search\n\nSECURITY CONSIDERATIONS:\n- Only searches within the project directory\n- Dangerous patterns are automatically blocked\n- Path traversal attempts are prevented\n- System directories are restricted\n\nThis tool will return matching files with their relative paths, sorted by relevance.',
+      'Use this tool to search for files using fuzzy filename matching. This tool finds files by partial name, extension, or pattern matching when you know PART of a filename but not the exact path.\n\nWHEN TO USE:\n- You know part of a filename but not the exact path\n- You want to find files by partial name or extension\n- You need fuzzy matching for typos or variations\n- You want to search for files without knowing the exact directory structure\n\nWHEN NOT TO USE:\n- Use GlobSearch instead if you know the exact pattern\n- Use DirectoryList if you want to explore a specific directory\n- Use FileRead if you already know the exact file path\n\nSEARCH EXAMPLES:\n- "config" - finds config.json, config.ts, my-config.js, etc.\n- ".env" - finds .env, .env.local, .env.production, etc.\n- "test" - finds test.ts, user.test.js, integration-tests/, etc.\n- "component" - finds Component.tsx, user-component.vue, etc.\n\nFUZZY MATCHING:\n- Supports partial matches and typos\n- Case-insensitive by default (configurable)\n- Matches anywhere in the filename\n- Includes file extensions in search\n\nSECURITY CONSIDERATIONS:\n- Only searches within the project directory\n- Dangerous patterns are automatically blocked\n- Path traversal attempts are prevented\n- System directories are restricted\n\nThis tool will return matching files with their relative paths, sorted by relevance.',
     parameters: {
       type: 'object',
       properties: {
@@ -33,7 +33,7 @@ export default {
         maxResults: {
           type: 'number',
           description:
-            'Maximum number of results to return. Defaults to 10. Use smaller numbers for faster searches.',
+            'Maximum number of results to return. Defaults to 10. Use smaller numbers for quicker searches.',
           minimum: 1,
           maximum: 20,
           default: 10
@@ -47,8 +47,8 @@ export default {
         onlyFiles: {
           type: 'boolean',
           description:
-            'Whether to return only files (true) or include directories (false). Defaults to true.',
-          default: true
+            'Whether to return only files (true) or include directories (false). Defaults to false.',
+          default: false
         },
         searchTerm: {
           type: 'string',

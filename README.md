@@ -4,12 +4,12 @@ A TypeScript toolkit for integrating Large Language Models with tool execution c
 
 ## 🎯 Purpose & Features
 
-A simple toolkit for integrating LLM applications with tool execution capabilities. Provides basic functionality for handling tool calls, managing chat sessions, and executing operations.
+A toolkit for integrating LLM applications with tool execution capabilities. Provides functionality for handling tool calls, managing chat sessions, and executing operations.
 
 - **🎯 Clean API**: Simple interface with minimal setup required
 - **📐 Type Safety**: Full TypeScript support with type definitions
 - **📱 Session Management**: Session handling with abort controls and permission inheritance
-- **🧠 Rich Context**: System prompts with environment-aware ContextSys integration
+- **🧠 Context**: System prompts with environment-aware ContextSys integration
 - **🔧 Tool Execution**: Tool registration with error handling and validation
 - **🔒 Permission System**: Approval controls for tool execution with `approve`, `deny`, and `allow_all` options
 - **🛡️ Security**: Security measures with tool usage restrictions and validation

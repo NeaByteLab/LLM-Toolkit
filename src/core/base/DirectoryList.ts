@@ -1,5 +1,6 @@
 import type { Stats } from 'node:fs'
-import { readFile, readdir, stat } from 'node:fs/promises'
+import { readFile, readdir, readlink, stat } from 'node:fs/promises'
+import { join, dirname } from 'node:path'
 import type { SchemaDirectoryList, SecurityPathResult } from '@interfaces/index'
 import { getSafePath } from '@core/security/index'
 
@@ -37,20 +38,56 @@ export default class DirectoryList {
       if (!safePath.success) {
         return `Error! Invalid directory path: ${safePath.message}.`
       }
-      const contents: string[] = await readdir(safePath.path)
+      const targetPath: string = await this.resolveSymlink(safePath.path)
+      const contents: string[] = await readdir(targetPath)
       if (contents.length === 0) {
         return `Directory ${this.directoryPath} is empty.`
       }
-      return await this.formatContents(safePath.path, contents)
+      return await this.formatContents(targetPath, contents)
     } catch (error) {
-      if (error instanceof Error && 'code' in error && error.code === 'ENOENT') {
-        return `Error! Directory not found: ${this.directoryPath}.`
-      }
-      if (error instanceof Error && 'code' in error && error.code === 'ENOTDIR') {
-        return `Error! Path is not a directory: ${this.directoryPath}.`
-      }
-      return `Error! Reading directory ${this.directoryPath}: ${error instanceof Error ? error.message : 'Unknown error'}.`
+      return this.handleDirectoryError(error)
     }
+  }
+
+  /**
+   * Resolves symlinks to their target paths.
+   * @description Follows symlinks and returns the target path.
+   * @param path - The path to check for symlinks
+   * @returns The resolved target path
+   */
+  private async resolveSymlink(path: string): Promise<string> {
+    try {
+      const stats: Stats = await stat(path)
+      if (stats.isSymbolicLink()) {
+        const linkTarget: string = await readlink(path)
+        return linkTarget.startsWith('/') ? linkTarget : join(dirname(path), linkTarget)
+      }
+    } catch {
+      // Skip if we can't read the symlink
+    }
+    return path
+  }
+
+  /**
+   * Handles directory operation errors with standardized messages.
+   * @description Converts various error types to user-friendly messages.
+   * @param error - The error that occurred
+   * @returns Standardized error message
+   */
+  private handleDirectoryError(error: unknown): string {
+    if (error instanceof Error && 'code' in error) {
+      switch (error.code) {
+        case 'ENOENT':
+          return `Error! Directory not found: ${this.directoryPath}.`
+        case 'ENOTDIR':
+          return `Error! Path is not a directory: ${this.directoryPath}.`
+        case 'EACCES':
+          return `Error! Permission denied: ${this.directoryPath}.`
+        default:
+          return `Error! Reading directory ${this.directoryPath}: ${error.message}.`
+      }
+    }
+    return `Error! Reading directory ${this.directoryPath}: ${error instanceof Error ? error.message : 'Unknown error'}.`
   }
 
   /**
@@ -121,10 +158,36 @@ export default class DirectoryList {
   private async getLineCount(filePath: string): Promise<number> {
     try {
       const content: string = await readFile(filePath, 'utf8')
+      const hasNullBytes: boolean = content.includes('\0')
+      const hasBinaryChars: boolean = this.isBinaryContent(content)
+      if (hasNullBytes || hasBinaryChars) {
+        return 0
+      }
       return content.split('\n').length
     } catch {
       return 0
     }
+  }
+
+  /**
+   * Checks if content contains binary characters.
+   * @description Detects binary content by checking for control characters.
+   * @param content - The content to check
+   * @returns True if content appears to be binary
+   */
+  private isBinaryContent(content: string): boolean {
+    for (let i: number = 0; i < content.length; i++) {
+      const charCode: number = content.charCodeAt(i)
+      if (
+        charCode === 0 ||
+        (charCode >= 1 && charCode <= 8) ||
+        (charCode >= 14 && charCode <= 31) ||
+        (charCode >= 127 && charCode <= 159)
+      ) {
+        return true
+      }
+    }
+    return false
   }
 
   /**
@@ -144,7 +207,7 @@ export default class DirectoryList {
 
   /**
    * Validates the directory path parameter.
-   * @description Checks that directoryPath is a valid non-empty string.
+   * @description Checks that directoryPath is a valid non-empty string with reasonable length.
    * @returns 'ok' if validation passes, error message if validation fails
    */
   private validate(): string {

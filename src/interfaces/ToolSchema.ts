@@ -155,6 +155,6 @@ export interface SchemaTerminalCmd {
  * @description Defines the structure for web fetching tool parameters.
  */
 export interface SchemaWebFetch {
-  /** The complete URL to fetch */
+  /** The URL to fetch */
   url: string
 }

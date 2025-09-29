@@ -12,7 +12,7 @@ import type { SecurityPathResult } from '@interfaces/SecurityPath'
 /**
  * Validates and secures a file/directory path to prevent directory traversal attacks.
  * @description Checks if path is relative or absolute, normalizes it, and ensures it stays within current working directory.
- * Also filters out dangerous files, directories, and patterns using comprehensive blacklists.
+ * Also filters out dangerous files, directories, and patterns using blacklists.
  * @param path - The path to validate and secure
  * @returns Object with success status and optional message
  */
@@ -40,11 +40,14 @@ export function getSafePath(path: string): SecurityPathResult {
   if (!isPathSafe(resolvedPath)) {
     return { success: false, message: 'Path contains dangerous files or patterns' }
   }
+  if (resolvedPath.length > 500) {
+    return { success: false, message: 'Path is too long (maximum 500 characters)' }
+  }
   return { success: true, path: resolvedPath }
 }
 
 /**
- * Checks if a path is safe by applying comprehensive security filters.
+ * Checks if a path is safe by applying extensive security filters.
  * @description Applies blacklists for files, directories, extensions, and dangerous patterns.
  * @param path - The resolved path to check
  * @returns True if path is safe, false if dangerous

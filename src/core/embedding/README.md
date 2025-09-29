@@ -188,4 +188,4 @@ try {
 
 ---
 
-**Note**: The embedding module uses a lightweight model by default, which provides a good balance between accuracy and performance for most use cases.
+**Note**: The embedding module uses a lightweight model by default, which provides a balance between accuracy and performance for most use cases.

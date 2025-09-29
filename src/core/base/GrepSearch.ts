@@ -32,7 +32,7 @@ const execAsync: (
 
 /**
  * Handles content search operations using Ripgrep with security validation.
- * @description Searches for text content within files using Ripgrep for fast, powerful text search.
+ * @description Searches for text content within files using Ripgrep for text search.
  */
 export default class GrepSearch {
   /** The search pattern to find */
@@ -128,7 +128,7 @@ export default class GrepSearch {
 
   /**
    * Validates the search parameters and configuration.
-   * @description Performs comprehensive validation of all search parameters and options.
+   * @description Validates all search parameters and options.
    * @returns 'ok' if validation passes, error message if validation fails
    */
   private validate(): string {
@@ -244,10 +244,10 @@ export default class GrepSearch {
 
   /**
    * Builds the Ripgrep command with all options.
-   * @description Constructs the complete Ripgrep command with pattern, options, and file filters.
+   * @description Constructs the Ripgrep command with pattern, options, and file filters.
    * @param ripgrepPath - Path to the Ripgrep binary
    * @param searchDir - Directory to search in
-   * @returns The complete Ripgrep command string
+   * @returns The Ripgrep command string
    */
   private buildRipgrepCommand(ripgrepPath: string, searchDir: string): string {
     const args: string[] = []
@@ -292,7 +292,7 @@ export default class GrepSearch {
   /**
    * Executes the Ripgrep search command.
    * @description Runs the Ripgrep command and parses the results.
-   * @param command - The complete Ripgrep command
+   * @param command - The Ripgrep command
    * @param searchDir - The search directory for relative paths
    * @returns Array of parsed search results
    * @throws {Error} When command execution fails

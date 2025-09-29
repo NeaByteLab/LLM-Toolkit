@@ -22,7 +22,7 @@ interface SearchResult {
 
 /**
  * Handles fuzzy filename search operations with security validation.
- * @description Searches for files using fuzzy filename matching with comprehensive security checks.
+ * @description Searches for files using fuzzy filename matching with extensive security checks.
  */
 export default class FileSearch {
   /** The search term to match against filenames */
@@ -61,7 +61,7 @@ export default class FileSearch {
     this.searchTerm = searchTerm
     this.workingDir = workingDir
     this.caseSensitive = caseSensitive ?? false
-    this.onlyFiles = onlyFiles ?? true
+    this.onlyFiles = onlyFiles ?? false
     this.onlyDirectories = onlyDirectories ?? false
     this.maxDepth = maxDepth
     this.maxResults = maxResults ?? 10
@@ -232,7 +232,7 @@ export default class FileSearch {
 
   /**
    * Calculates extension-specific scoring.
-   * @description Evaluates file extension matches for enhanced relevance scoring.
+   * @description Evaluates file extension matches for relevance scoring.
    * @param filename - The original filename
    * @param searchTerm - The search term
    * @returns Extension relevance score

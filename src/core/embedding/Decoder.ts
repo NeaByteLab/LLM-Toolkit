@@ -16,7 +16,7 @@ export class Decoder {
   /**
    * Initialize the encoder for embedding operations.
    * @description Ensures the underlying encoder is ready for processing text into vectors.
-   * @returns Promise resolving when initialization is complete
+   * @returns Promise resolving when initialization is done
    */
   static async initialize(): Promise<void> {
     if (!this.initialized) {
@@ -30,7 +30,7 @@ export class Decoder {
    * @description Converts text into a vector representation and stores it for future similarity queries.
    * @param data - Text content to encode into a vector
    * @param filePath - Optional file path to associate with the encoded data
-   * @returns Promise resolving when encoding and storage is complete
+   * @returns Promise resolving when encoding and storage is done
    */
   static async encode(data: string, filePath?: string): Promise<void> {
     await this.initialize()

@@ -12,7 +12,7 @@ export class ChatManager {
 
   /**
    * Creates a new chat session.
-   * @description Generates a unique session ID and initializes a new chat session.
+   * @description Generates a session ID and initializes a new chat session.
    * @param initialMessage - Optional initial message to add to the session
    * @returns The generated session ID
    */
@@ -65,7 +65,7 @@ export class ChatManager {
 
   /**
    * Retrieves a chat session by ID.
-   * @description Returns the complete session object for the specified ID.
+   * @description Returns the session object for the specified ID.
    * @param id - The session ID to retrieve
    * @returns Chat session object or undefined if not found
    */

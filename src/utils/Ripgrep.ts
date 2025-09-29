@@ -164,8 +164,8 @@ export const repoName: string = 'ripgrep'
 export const repoVer: string = '14.1.1'
 
 /**
- * Complete download URL for ripgrep.
- * @description Constructed URL pointing to the appropriate ripgrep release for the current platform.
+ * Download URL for ripgrep.
+ * @description URL pointing to the appropriate ripgrep release for the current platform.
  */
 export const repoUrl: string = `https://github.com/BurntSushi/${repoName}/releases/download/${repoVer}/${repoName}-${repoVer}-${id}.${extension}`
 
