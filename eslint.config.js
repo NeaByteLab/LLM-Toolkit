@@ -25,8 +25,8 @@ export default [
    * @description Configuration object for TypeScript and TSX files with rules
    */
   {
-    files: ['src/**/**/**/**/*.ts', 'src/**/**/**/**/*.tsx'],
-    ignores: ['src/scripts/**/*.ts'],
+    files: ['src/**/*.ts', 'src/**/*.tsx'],
+    ignores: [''],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
