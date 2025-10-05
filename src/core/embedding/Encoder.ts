@@ -62,7 +62,7 @@ export class Encoder implements EmbeddingExtractor {
    * Extract embeddings from input sentences.
    * @description Processes sentences and returns their vector representations.
    * @param sentences - Array of sentences to process (must not be empty)
-   * @param options - Configuration options for extraction (pooling, normalization, batch size)
+   * @param options - Configuration options for extraction
    * @returns Promise resolving to embedding results containing data, dimensions, and count
    * @throws {Error} When encoder is not initialized or sentences array is empty
    */

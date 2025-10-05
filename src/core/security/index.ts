@@ -11,8 +11,7 @@ import type { SecurityPathResult } from '@interfaces/SecurityPath'
 
 /**
  * Validates and secures a file/directory path to prevent directory traversal attacks.
- * @description Checks if path is relative or absolute, normalizes it, and ensures it stays within current working directory.
- * Also filters out dangerous files, directories, and patterns using blacklists.
+ * @description Checks path validity and applies security filters.
  * @param path - The path to validate and secure
  * @returns Object with success status and optional message
  */

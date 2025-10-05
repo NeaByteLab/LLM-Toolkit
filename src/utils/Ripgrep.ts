@@ -8,7 +8,7 @@ import fetch from '@neabyte/fetch'
 
 /**
  * Response object containing platform-specific information.
- * @description Defines the structure for platform identification data including architecture ID and file extension.
+ * @description Defines the structure for platform identification data.
  */
 export interface PlatformResponse {
   /** The platform-specific architecture identifier */
@@ -19,13 +19,13 @@ export interface PlatformResponse {
 
 /**
  * Promisified version of Node.js exec function.
- * @description Converts the callback-based exec function to return a Promise for easier async/await usage.
+ * @description Converts the callback-based exec function to return a Promise.
  */
 const execAsync: (command: string) => Promise<{ stdout: string; stderr: string }> = promisify(exec)
 
 /**
  * Current file path resolved from import.meta.url.
- * @description Gets the absolute file path of the current module for path resolution.
+ * @description Gets the absolute file path of the current module.
  */
 const filename: string = fileURLToPath(import.meta.url)
 
@@ -86,7 +86,7 @@ export function getWindowsId(arch: string): string {
 
 /**
  * Gets the Linux platform identifier for the specified architecture.
- * @description Maps Node.js architecture strings to ripgrep's Linux platform identifiers with fallback to i686.
+ * @description Maps Node.js architecture strings to ripgrep's Linux platform identifiers.
  * @param arch - The Node.js architecture string (e.g., 'x64', 'arm', 'arm64', 'ppc64', 'riscv64', 's390x')
  * @returns The Linux platform identifier for ripgrep downloads
  */
@@ -171,7 +171,7 @@ export const repoUrl: string = `https://github.com/BurntSushi/${repoName}/releas
 
 /**
  * Extracts a tar.gz archive containing ripgrep binary.
- * @description Extracts the tar.gz file, locates the ripgrep binary, moves it to the target directory, and cleans up.
+ * @description Extracts the tar.gz file, locates the ripgrep binary, and moves it to the target directory.
  * @param filePath - The path to the tar.gz archive file
  * @param binDir - The target directory to extract the binary to
  * @throws {Error} When extraction commands fail or file operations encounter errors
@@ -195,7 +195,7 @@ export async function extractTarGz(filePath: string, binDir: string): Promise<vo
 
 /**
  * Extracts a zip archive containing ripgrep binary.
- * @description Extracts the zip file, locates the ripgrep binary, moves it to the target directory, and cleans up.
+ * @description Extracts the zip file, locates the ripgrep binary, and moves it to the target directory.
  * @param filePath - The path to the zip archive file
  * @param binDir - The target directory to extract the binary to
  * @throws {Error} When extraction commands fail or file operations encounter errors
@@ -216,7 +216,7 @@ export async function extractZip(filePath: string, binDir: string): Promise<void
 
 /**
  * Extracts the downloaded ripgrep archive.
- * @description Handles extraction of the downloaded ripgrep archive based on file extension and cleans up the archive file.
+ * @description Handles extraction of the downloaded ripgrep archive based on file extension.
  * @param binDir - The target directory to extract the binary to
  * @throws {Error} When extraction fails, directory creation fails, or file operations encounter errors
  */
@@ -242,7 +242,7 @@ export async function extractRipgrep(binDir: string): Promise<void> {
 
 /**
  * Downloads and sets up ripgrep binary for the current platform.
- * @description Downloads the appropriate ripgrep binary, extracts it, and sets up the executable with progress feedback.
+ * @description Downloads the appropriate ripgrep binary, extracts it, and sets up the executable.
  * @throws {Error} When download fails, extraction fails, or setup encounters errors (exits process on failure)
  */
 export async function downloadRipgrep(): Promise<void> {

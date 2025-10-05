@@ -4,7 +4,7 @@ import { getSafePath, validateFileSize } from '@core/security/index'
 
 /**
  * Handles file reading operations with security validation and line range support.
- * @description Executes file reading with path validation, security checks, and optional line range filtering.
+ * @description Executes file reading with validation and optional line filtering.
  */
 export default class FileRead {
   /** The file path to read */
@@ -28,7 +28,7 @@ export default class FileRead {
 
   /**
    * Executes the file read operation.
-   * @description Performs validation, security checks, and reads file content with optional line range filtering.
+   * @description Performs validation and reads file content with optional line filtering.
    * @returns File content as string or error message if validation/reading fails
    * @throws {Error} When file system operations fail or validation errors occur
    */
@@ -70,7 +70,7 @@ export default class FileRead {
 
   /**
    * Filters file content by line range.
-   * @description Extracts specific lines from file content based on lineStart and lineEnd parameters.
+   * @description Extracts specific lines from file content based on line parameters.
    * @param content - The full file content
    * @returns Filtered content with line numbers or full content if no range specified
    */
@@ -124,7 +124,7 @@ export default class FileRead {
 
   /**
    * Validates the file path and line range parameters.
-   * @description Checks that filePath is valid and line range parameters are within acceptable bounds.
+   * @description Checks that filePath is valid and line range parameters are within bounds.
    * @returns 'ok' if validation passes, error message if validation fails
    */
   private validate(): string {

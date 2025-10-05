@@ -3,7 +3,7 @@ import type { EmbeddingResult } from '@interfaces/Embedding'
 
 /**
  * Simple static Decoder class for vector operations.
- * @description Provides static methods for encoding text into vectors and querying similar content using cosine similarity.
+ * @description Provides static methods for encoding text and querying similar content.
  */
 export class Decoder {
   /** Encoder instance for text to vector conversion */
@@ -15,7 +15,7 @@ export class Decoder {
 
   /**
    * Initialize the encoder for embedding operations.
-   * @description Ensures the underlying encoder is ready for processing text into vectors.
+   * @description Ensures the underlying encoder is ready for processing.
    * @returns Promise resolving when initialization is done
    */
   static async initialize(): Promise<void> {
@@ -27,7 +27,7 @@ export class Decoder {
 
   /**
    * Encode text data and store the resulting vector.
-   * @description Converts text into a vector representation and stores it for future similarity queries.
+   * @description Converts text into a vector representation and stores it.
    * @param data - Text content to encode into a vector
    * @param filePath - Optional file path to associate with the encoded data
    * @returns Promise resolving when encoding and storage is done
@@ -45,7 +45,7 @@ export class Decoder {
 
   /**
    * Query for similar vectors using cosine similarity.
-   * @description Finds the most similar stored vectors to the query text, sorted by similarity score.
+   * @description Finds the most similar stored vectors to the query text.
    * @param query - Query text to find similar content for
    * @returns Promise resolving to array of similar vectors with similarity scores
    */
@@ -65,7 +65,7 @@ export class Decoder {
 
   /**
    * Calculate cosine similarity between two vectors.
-   * @description Computes the cosine similarity score between two vector arrays (0-1 scale).
+   * @description Computes the cosine similarity score between two vector arrays.
    * @param a - First vector array
    * @param b - Second vector array
    * @returns Cosine similarity score between 0 and 1 (higher is more similar)

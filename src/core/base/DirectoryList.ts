@@ -6,7 +6,7 @@ import { getSafePath } from '@core/security/index'
 
 /**
  * Handles directory listing operations with security validation.
- * @description Executes directory listing with path validation and security checks to prevent directory traversal attacks.
+ * @description Executes directory listing with path validation and security checks.
  */
 export default class DirectoryList {
   /** The directory path to list */

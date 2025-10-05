@@ -3,7 +3,7 @@ import type { SchemaWebFetch } from '@interfaces/index'
 
 /**
  * Handles web fetching operations with HTML to Markdown conversion.
- * @description Executes web requests to fetch content from URLs and converts HTML to Markdown format.
+ * @description Executes web requests and converts HTML to Markdown format.
  */
 export default class WebFetch {
   /** The URL to fetch content from */
@@ -21,7 +21,7 @@ export default class WebFetch {
 
   /**
    * Executes the web fetch operation.
-   * @description Performs validation, security checks, and fetches web content or returns error message.
+   * @description Performs validation and fetches web content or returns error message.
    * @returns Web content as Markdown string or error message if validation/fetching fails
    * @throws {Error} When network operations fail or validation errors occur
    */

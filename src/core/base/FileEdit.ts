@@ -5,7 +5,7 @@ import { getSafePath } from '@core/security/index'
 
 /**
  * Handles file editing operations with search and replace functionality.
- * @description Executes file modifications by replacing specific text in files with versioning support.
+ * @description Executes file modifications by replacing specific text in files.
  */
 export default class FileEdit {
   /** The file path where the edit will be applied */

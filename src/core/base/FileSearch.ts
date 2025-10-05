@@ -22,7 +22,7 @@ interface SearchResult {
 
 /**
  * Handles fuzzy filename search operations with security validation.
- * @description Searches for files using fuzzy filename matching with extensive security checks.
+ * @description Searches for files using fuzzy filename matching with security checks.
  */
 export default class FileSearch {
   /** The search term to match against filenames */
@@ -70,7 +70,7 @@ export default class FileSearch {
 
   /**
    * Executes the fuzzy file search operation.
-   * @description Performs validation, security checks, and executes the fuzzy search.
+   * @description Performs validation and executes the fuzzy search.
    * @returns Search results with matching file paths or error message
    * @throws {Error} When search operations fail or validation errors occur
    */
@@ -182,7 +182,7 @@ export default class FileSearch {
 
   /**
    * Calculates the relevance score for a filename match.
-   * @description Applies fuzzy matching algorithm to determine how well a filename matches the search term.
+   * @description Applies fuzzy matching algorithm to determine filename match quality.
    * @param filename - The filename to score
    * @param isDirectory - Whether this is a directory
    * @returns Relevance score (0 = no match, higher = better match)

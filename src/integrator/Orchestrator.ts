@@ -91,7 +91,7 @@ export class Orchestrator {
 
   /**
    * Processes a chat request with tool execution and permission support.
-   * @description Handles chat interactions, tool calls, and emits real-time events.
+   * @description Handles chat interactions, tool calls, and emits events.
    * @param message - The user message to process
    * @param options - Chat options including event callbacks and settings
    * @returns Promise that resolves to a chat session
@@ -220,7 +220,7 @@ export class Orchestrator {
 
   /**
    * Handles tool call execution with permission management.
-   * @description Executes tool calls and adds tool responses to the chat session.
+   * @description Executes tool calls and adds tool responses to the session.
    * @param sessionId - The session ID to add tool responses to
    * @param toolCalls - Array of tool calls to execute
    * @param options - Chat options
@@ -256,7 +256,7 @@ export class Orchestrator {
 
   /**
    * Processes the main chat loop with tool execution and permissions.
-   * @description Handles iterative chat processing until no more tool calls are needed.
+   * @description Handles iterative chat processing until no more tool calls needed.
    * @param sessionId - The session ID to process
    * @param message - The user message
    * @param options - Chat options
