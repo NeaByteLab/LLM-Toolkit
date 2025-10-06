@@ -1,4 +1,4 @@
-import { randomBytes } from 'node:crypto'
+import { randomBytes, randomUUID } from 'node:crypto'
 
 /**
  * Generates a unique identifier with timestamp and random components.
@@ -24,4 +24,13 @@ export function generateId(prefix: string): string {
   const timestamp: string = Date.now().toString(36)
   const random: string = randomBytes(8).toString('hex')
   return `${trimmed}_${timestamp}_${random}`
+}
+
+/**
+ * Generates a standard UUID v4.
+ * @description Creates a universally unique identifier using Node.js crypto.randomUUID().
+ * @returns A UUID v4 string in format: xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx
+ */
+export function generateUUID(): string {
+  return randomUUID()
 }

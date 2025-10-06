@@ -160,6 +160,23 @@ export interface SchemaGrepSearch {
 }
 
 /**
+ * Schema for task planning operations.
+ * @description Defines the structure for task planning tool parameters.
+ */
+export interface SchemaTaskPlan {
+  /** The action to perform on the task list */
+  action: 'create' | 'update' | 'get' | 'clear'
+  /** Unique identifier for the task item */
+  id?: number
+  /** The main title or description of the task item */
+  title?: string
+  /** Detailed description of the task item */
+  description?: string
+  /** Current status of the task item */
+  status?: 'pending' | 'in_progress' | 'completed' | 'cancelled'
+}
+
+/**
  * Schema for terminal command execution operations.
  * @description Defines the structure for terminal command execution tool parameters.
  */

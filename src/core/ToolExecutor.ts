@@ -10,6 +10,7 @@ import type {
   SchemaFileSearch,
   SchemaGlobSearch,
   SchemaGrepSearch,
+  SchemaTaskPlan,
   SchemaTerminalCmd,
   SchemaWebFetch
 } from '@root/interfaces/index'
@@ -24,6 +25,7 @@ import FileMove from '@core/base/FileMove'
 import FileSearch from '@core/base/FileSearch'
 import GlobSearch from '@core/base/GlobSearch'
 import GrepSearch from '@core/base/GrepSearch'
+import TaskPlan from '@core/base/TaskPlan'
 import TerminalCmd from '@core/base/TerminalCmd'
 import WebFetch from '@core/base/WebFetch'
 
@@ -63,6 +65,8 @@ export class ToolExecutor {
         return new GlobSearch(args as SchemaGlobSearch).execute()
       case 'GrepSearch':
         return new GrepSearch(args as SchemaGrepSearch).execute()
+      case 'TaskPlan':
+        return new TaskPlan(args as SchemaTaskPlan).execute()
       case 'TerminalCmd':
         return new TerminalCmd(args as SchemaTerminalCmd).execute()
       case 'WebFetch':

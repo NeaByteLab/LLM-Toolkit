@@ -10,6 +10,7 @@ import FileRead from '@schemas/FileRead'
 import FileSearch from '@schemas/FileSearch'
 import GlobSearch from '@schemas/GlobSearch'
 import GrepSearch from '@schemas/GrepSearch'
+import TaskPlan from '@schemas/TaskPlan'
 import TerminalCmd from '@schemas/TerminalCmd'
 import WebFetch from '@schemas/WebFetch'
 
@@ -29,6 +30,7 @@ export default [
   FileSearch as ToolCall,
   GlobSearch as ToolCall,
   GrepSearch as ToolCall,
+  TaskPlan as ToolCall,
   TerminalCmd as ToolCall,
   WebFetch as ToolCall
 ]
