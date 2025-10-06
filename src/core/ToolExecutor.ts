@@ -1,5 +1,6 @@
 import type {
   SchemaDirectoryCreate,
+  SchemaDirectoryDelete,
   SchemaDirectoryList,
   SchemaDirectoryMove,
   SchemaFileCreate,
@@ -15,6 +16,7 @@ import type {
   SchemaWebFetch
 } from '@root/interfaces/index'
 import DirectoryCreate from '@core/base/DirectoryCreate'
+import DirectoryDelete from '@core/base/DirectoryDelete'
 import DirectoryList from '@core/base/DirectoryList'
 import DirectoryMove from '@core/base/DirectoryMove'
 import FileCreate from '@core/base/FileCreate'
@@ -45,6 +47,8 @@ export class ToolExecutor {
     switch (toolName) {
       case 'DirectoryCreate':
         return new DirectoryCreate(args as SchemaDirectoryCreate).execute()
+      case 'DirectoryDelete':
+        return new DirectoryDelete(args as SchemaDirectoryDelete).execute()
       case 'DirectoryList':
         return new DirectoryList(args as SchemaDirectoryList).execute()
       case 'DirectoryMove':

@@ -10,6 +10,17 @@ export interface SchemaDirectoryCreate {
 }
 
 /**
+ * Schema for directory deletion operations.
+ * @description Defines the structure for directory deletion tool parameters.
+ */
+export interface SchemaDirectoryDelete {
+  /** The directory path to delete */
+  directoryPath: string
+  /** Whether to delete the directory and all its contents recursively */
+  recursive?: boolean
+}
+
+/**
  * Schema for directory listing operations.
  * @description Defines the structure for directory listing tool parameters.
  */
