@@ -129,7 +129,7 @@ export default class TaskPlan {
     const taskList: string = TaskPlan.taskData
       .map((task: SchemaTaskPlan) => {
         const statusIcon: string = this.getStatusIcon(task.status ?? 'pending')
-        return `${statusIcon} ${task.title}\n${task.description}\n`
+        return `${statusIcon} ${task.title} [ID: ${task.id}]\n${task.description}\n`
       })
       .join('\n')
     return taskList
