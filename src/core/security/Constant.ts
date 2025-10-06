@@ -3,7 +3,7 @@
  * @description Commands that pose security risks or can cause system damage.
  */
 export const dangerousCommands: string[] = [
-  'rm -rf',
+  'rm',
   'sudo',
   'chmod',
   'passwd',
@@ -16,8 +16,8 @@ export const dangerousCommands: string[] = [
   'systemctl',
   'crontab',
   'killall',
-  'pkill',
   'kill -9',
+  'pkill',
   'nohup',
   'screen',
   'tmux'
@@ -30,9 +30,6 @@ export const dangerousCommands: string[] = [
 export const blacklistedFiles: string[] = [
   '.env',
   '.envrc',
-  'package-lock.json',
-  'yarn.lock',
-  'pnpm-lock.yaml',
   '.git/config',
   '.git/HEAD',
   '.git/hooks/',
@@ -93,35 +90,6 @@ export const blacklistedDir: string[] = [
   '.npm',
   '.yarn',
   '.pnpm'
-]
-
-/**
- * Dangerous file extensions that should be blocked.
- * @description File extensions that could contain sensitive or executable content.
- */
-export const blacklistedExt: string[] = [
-  '.exe',
-  '.bat',
-  '.cmd',
-  '.com',
-  '.scr',
-  '.pif',
-  '.msi',
-  '.dmg',
-  '.pkg',
-  '.deb',
-  '.rpm',
-  '.app',
-  '.appx',
-  '.msix',
-  '.bin',
-  '.so',
-  '.dll',
-  '.dylib',
-  '.a',
-  '.lib',
-  '.o',
-  '.obj'
 ]
 
 /**

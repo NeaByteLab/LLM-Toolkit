@@ -1,13 +1,8 @@
+import type { SecurityFileSize, SecurityPathResult } from '@interfaces/index'
 import type { Stats } from 'node:fs'
 import { stat } from 'node:fs/promises'
-import { resolve, normalize, isAbsolute, basename, extname, dirname } from 'node:path'
-import {
-  blacklistedFiles,
-  blacklistedDir,
-  blacklistedExt,
-  dangerousPatterns
-} from '@core/security/Constant'
-import type { SecurityFileSize, SecurityPathResult } from '@interfaces/index'
+import { resolve, normalize, isAbsolute, basename, dirname } from 'node:path'
+import { blacklistedFiles, blacklistedDir, dangerousPatterns } from '@core/security/Constant'
 
 /**
  * Validates and secures a file/directory path to prevent directory traversal attacks.
@@ -53,15 +48,11 @@ export function getSafePath(path: string): SecurityPathResult {
  */
 export function isPathSafe(path: string): boolean {
   const fileName: string = basename(path)
-  const fileExtension: string = extname(path)
   const directoryName: string = basename(dirname(path))
   if (blacklistedFiles.includes(fileName)) {
     return false
   }
   if (blacklistedDir.includes(directoryName)) {
-    return false
-  }
-  if (blacklistedExt.includes(fileExtension)) {
     return false
   }
   for (const pattern of dangerousPatterns) {
