@@ -126,9 +126,9 @@ export default class WebFetch {
       if (
         urlObj.hostname === 'localhost' ||
         urlObj.hostname === '127.0.0.1' ||
-        urlObj.hostname.startsWith('192.168.') ||
         urlObj.hostname.startsWith('10.') ||
-        urlObj.hostname.startsWith('172.')
+        urlObj.hostname.startsWith('172.') ||
+        urlObj.hostname.startsWith('192.')
       ) {
         return 'Invalid: `url` cannot point to localhost or private IP addresses.'
       }

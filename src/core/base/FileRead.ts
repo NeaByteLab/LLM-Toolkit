@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises'
-import type { SchemaFileRead, SecurityPathResult } from '@interfaces/index'
+import type { SchemaFileRead, SecurityFileSize, SecurityPathResult } from '@interfaces/index'
 import { getSafePath, validateFileSize } from '@core/security/index'
 
 /**
@@ -42,9 +42,7 @@ export default class FileRead {
       if (!safePath.success) {
         return `Error! Invalid file path: ${safePath.message}.`
       }
-      const sizeValidation: { valid: boolean; exists: boolean } = await validateFileSize(
-        safePath.path
-      )
+      const sizeValidation: SecurityFileSize = await validateFileSize(safePath.path)
       if (sizeValidation.exists === false) {
         return `Error! File not found: ${this.filePath}.`
       }

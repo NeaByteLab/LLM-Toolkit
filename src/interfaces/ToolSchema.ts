@@ -43,6 +43,17 @@ export interface SchemaFileEdit {
 }
 
 /**
+ * Schema for file move operations.
+ * @description Defines the structure for file move tool parameters.
+ */
+export interface SchemaFileMove {
+  /** The current path of the file to move */
+  oldPath: string
+  /** The new path where the file should be moved to */
+  newPath: string
+}
+
+/**
  * Schema for file read operations.
  * @description Defines the structure for file reading tool parameters.
  */
@@ -124,17 +135,6 @@ export interface SchemaGrepSearch {
   maxDepth?: number
   /** Array of patterns to exclude from search */
   excludePatterns?: string[]
-}
-
-/**
- * Schema for file rename operations.
- * @description Defines the structure for file rename tool parameters.
- */
-export interface SchemaFileRename {
-  /** The current filename to rename */
-  oldFilename: string
-  /** The new filename to rename to */
-  newFilename: string
 }
 
 /**

@@ -1,6 +1,6 @@
 /**
- * Re-exports all core components.
- * @description Centralizes all core exports for easy importing.
+ * Core functionality and components.
+ * @description Re-exports all core components.
  */
 export * from '@core/embedding/index'
 export * from '@core/ToolExecutor'

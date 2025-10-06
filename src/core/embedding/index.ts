@@ -1,6 +1,6 @@
 /**
- * Re-exports all embedding components and utilities.
- * @description Centralizes embedding exports (Encoder, Decoder) for easy importing.
+ * Embedding components and utilities.
+ * @description Re-exports all embedding components.
  */
 export { Encoder } from '@core/embedding/Encoder'
 export { Decoder } from '@core/embedding/Decoder'

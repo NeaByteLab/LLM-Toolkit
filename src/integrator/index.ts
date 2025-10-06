@@ -1,6 +1,6 @@
 /**
- * Re-exports all integrator components.
- * @description Centralizes all integrator exports for easy importing.
+ * Integrator components and orchestrators.
+ * @description Re-exports all integrator components.
  */
 export * from '@integrator/ChatManager'
 export * from '@integrator/ContextEnv'

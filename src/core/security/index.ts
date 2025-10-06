@@ -7,7 +7,7 @@ import {
   blacklistedExt,
   dangerousPatterns
 } from '@core/security/Constant'
-import type { SecurityPathResult } from '@interfaces/SecurityPath'
+import type { SecurityFileSize, SecurityPathResult } from '@interfaces/index'
 
 /**
  * Validates and secures a file/directory path to prevent directory traversal attacks.
@@ -78,9 +78,7 @@ export function isPathSafe(path: string): boolean {
  * @param filePath - The file path to check
  * @returns Promise that resolves to true if file size is acceptable, false if too large
  */
-export async function validateFileSize(
-  filePath: string
-): Promise<{ valid: boolean; exists: boolean }> {
+export async function validateFileSize(filePath: string): Promise<SecurityFileSize> {
   try {
     const stats: Stats = await stat(filePath)
     if (typeof stats.size !== 'number') {

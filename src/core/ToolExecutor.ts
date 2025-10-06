@@ -3,8 +3,8 @@ import type {
   SchemaFileCreate,
   SchemaFileDelete,
   SchemaFileEdit,
+  SchemaFileMove,
   SchemaFileRead,
-  SchemaFileRename,
   SchemaFileSearch,
   SchemaGlobSearch,
   SchemaGrepSearch,
@@ -16,7 +16,7 @@ import FileCreate from '@core/base/FileCreate'
 import FileDelete from '@core/base/FileDelete'
 import FileEdit from '@core/base/FileEdit'
 import FileRead from '@core/base/FileRead'
-import FileRename from '@core/base/FileRename'
+import FileMove from '@core/base/FileMove'
 import FileSearch from '@core/base/FileSearch'
 import GlobSearch from '@core/base/GlobSearch'
 import GrepSearch from '@core/base/GrepSearch'
@@ -47,8 +47,8 @@ export class ToolExecutor {
         return new FileEdit(args as SchemaFileEdit).execute()
       case 'FileRead':
         return new FileRead(args as SchemaFileRead).execute()
-      case 'FileRename':
-        return new FileRename(args as SchemaFileRename).execute()
+      case 'FileMove':
+        return new FileMove(args as SchemaFileMove).execute()
       case 'FileSearch':
         return new FileSearch(args as SchemaFileSearch).execute()
       case 'GlobSearch':

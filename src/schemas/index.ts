@@ -3,8 +3,8 @@ import DirectoryList from '@schemas/DirectoryList'
 import FileCreate from '@schemas/FileCreate'
 import FileDelete from '@schemas/FileDelete'
 import FileEdit from '@schemas/FileEdit'
+import FileMove from '@schemas/FileMove'
 import FileRead from '@schemas/FileRead'
-import FileRename from '@schemas/FileRename'
 import FileSearch from '@schemas/FileSearch'
 import GlobSearch from '@schemas/GlobSearch'
 import GrepSearch from '@schemas/GrepSearch'
@@ -20,8 +20,8 @@ export default [
   FileCreate as ToolCall,
   FileDelete as ToolCall,
   FileEdit as ToolCall,
+  FileMove as ToolCall,
   FileRead as ToolCall,
-  FileRename as ToolCall,
   FileSearch as ToolCall,
   GlobSearch as ToolCall,
   GrepSearch as ToolCall,
