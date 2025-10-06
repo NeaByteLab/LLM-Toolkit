@@ -7,7 +7,7 @@ export default {
   function: {
     name: 'FileMove',
     description:
-      "Use this tool to move a file from one location to another. This tool can move files between directories and rename them during the move operation.\n\nFILE MOVE OPERATIONS:\n- Moves files from one path to another\n- Can move files between different directories\n- Can rename files during the move operation\n- Preserves file content and permissions\n- Creates target directory if it doesn't exist",
+      'Use this tool to move a file from one location to another. This tool can move files between directories and rename them during the move operation.\n\nFILE MOVE OPERATIONS:\n- Moves files from one path to another\n- Can move files between different directories\n- Can rename files during the move operation\n- Preserves file content and permissions\n- Creates target directory if it doesn\'t exist',
     parameters: {
       type: 'object',
       properties: {

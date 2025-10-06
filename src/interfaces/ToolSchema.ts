@@ -1,4 +1,15 @@
 /**
+ * Schema for directory creation operations.
+ * @description Defines the structure for directory creation tool parameters.
+ */
+export interface SchemaDirectoryCreate {
+  /** The directory path to create */
+  directoryPath: string
+  /** Whether to create parent directories if they don't exist */
+  recursive?: boolean
+}
+
+/**
  * Schema for directory listing operations.
  * @description Defines the structure for directory listing tool parameters.
  */

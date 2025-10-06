@@ -7,7 +7,7 @@ export default {
   function: {
     name: 'FileCreate',
     description:
-      'Use this tool to create a new file with specified content. This tool will create a new file at the specified path and write the provided content to it.\n\nIMPORTANT: This tool creates NEW files only. If the file already exists, the operation will fail.\n\nPATH RECOMMENDATIONS:\n- RECOMMENDED: Use absolute paths for clarity and precision (e.g., "/full/path/to/newfile.ts")\n- ACCEPTED: Relative paths are also supported (e.g., "src/newfile.ts")\n\nFor creating files:\n- Provide the complete file content from scratch\n- Ensure the file path is valid and does not already exist\n\nThis tool will create the file and write the content exactly as provided.',
+      'Use this tool to create a file with specified content. Creates a new file at the specified path and writes the provided content to it.\n\nIMPORTANT: Creates NEW files only. Fails if file already exists.',
     parameters: {
       type: 'object',
       properties: {

@@ -1,4 +1,5 @@
 import type { ToolCall } from '@neabyte/ollama-native'
+import DirectoryCreate from '@schemas/DirectoryCreate'
 import DirectoryList from '@schemas/DirectoryList'
 import FileCreate from '@schemas/FileCreate'
 import FileDelete from '@schemas/FileDelete'
@@ -16,6 +17,7 @@ import WebFetch from '@schemas/WebFetch'
  * @description Exports all tool definitions as an array of ToolCall objects.
  */
 export default [
+  DirectoryCreate as ToolCall,
   DirectoryList as ToolCall,
   FileCreate as ToolCall,
   FileDelete as ToolCall,

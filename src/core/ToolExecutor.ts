@@ -1,4 +1,5 @@
 import type {
+  SchemaDirectoryCreate,
   SchemaDirectoryList,
   SchemaFileCreate,
   SchemaFileDelete,
@@ -11,6 +12,7 @@ import type {
   SchemaTerminalCmd,
   SchemaWebFetch
 } from '@root/interfaces/index'
+import DirectoryCreate from '@core/base/DirectoryCreate'
 import DirectoryList from '@core/base/DirectoryList'
 import FileCreate from '@core/base/FileCreate'
 import FileDelete from '@core/base/FileDelete'
@@ -37,6 +39,8 @@ export class ToolExecutor {
    */
   async execute(toolName: string, args: unknown): Promise<string> {
     switch (toolName) {
+      case 'DirectoryCreate':
+        return new DirectoryCreate(args as SchemaDirectoryCreate).execute()
       case 'DirectoryList':
         return new DirectoryList(args as SchemaDirectoryList).execute()
       case 'FileCreate':

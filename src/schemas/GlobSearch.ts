@@ -23,33 +23,27 @@ export default {
         workingDir: {
           type: 'string',
           description:
-            'The working directory to search from. If not specified, uses the project root directory. Must be within the project directory.',
-          examples: ['src', 'src/components', 'tests']
+            'The working directory to search from. If not specified, uses the project root directory. Must be within the project directory.'
         },
         caseSensitive: {
           type: 'boolean',
           description:
-            'Whether the pattern matching should be case-sensitive. Defaults to false for cross-platform compatibility.',
-          default: false
+            'Whether the pattern matching should be case-sensitive. Defaults to false for cross-platform compatibility.'
         },
         onlyFiles: {
           type: 'boolean',
           description:
-            'Whether to return only files (true) or include directories (false). Defaults to true.',
-          default: true
+            'Whether to return only files (true) or include directories (false). Defaults to true.'
         },
         onlyDirectories: {
           type: 'boolean',
           description:
-            'Whether to return only directories (true) or include files (false). Defaults to false.',
-          default: false
+            'Whether to return only directories (true) or include files (false). Defaults to false.'
         },
         maxDepth: {
           type: 'number',
           description:
-            'Maximum depth to search. 0 means only the current directory, 1 means one level deep, etc. If not specified, searches all levels.',
-          minimum: 0,
-          maximum: 20
+            'Maximum depth to search. 0 means only the current directory, 1 means one level deep, etc. If not specified, searches all levels.'
         }
       },
       required: ['patterns']
