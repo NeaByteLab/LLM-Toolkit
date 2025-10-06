@@ -7,7 +7,7 @@ export default {
   function: {
     name: 'TerminalCmd',
     description:
-      'Use this tool to execute terminal commands in a controlled environment. This tool runs commands with security validation and timeout protection.\n\nIMPORTANT: This tool executes commands with restricted permissions and security checks.\n\nTIMEOUT LIMITS:\n- Minimum timeout: 30 seconds (30000ms)\n- Maximum timeout: 5 minutes (300000ms)\n- Default timeout: 60 seconds (60000ms).',
+      'Execute terminal commands in a controlled environment. Runs commands with security validation and timeout protection. Fails if command is dangerous, times out, or working directory does not exist.',
     parameters: {
       type: 'object',
       properties: {
@@ -19,7 +19,7 @@ export default {
         workingDir: {
           type: 'string',
           description:
-            'The working directory for the command execution. If not specified, uses the project root directory. Must be within the project directory.'
+            'The working directory for the command execution. If not specified, uses the project root directory. Use absolute paths for clarity, relative paths are also supported.'
         },
         timeout: {
           type: 'number',

@@ -1,6 +1,6 @@
+import type { SchemaDirectoryCreate, SecurityPathResult } from '@interfaces/index'
 import { mkdir, existsSync } from 'node:fs'
 import { promisify } from 'node:util'
-import type { SchemaDirectoryCreate, SecurityPathResult } from '@interfaces/index'
 import { getSafePath } from '@core/security/index'
 
 /**

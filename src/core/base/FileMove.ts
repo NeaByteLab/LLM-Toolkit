@@ -1,6 +1,6 @@
+import type { SchemaFileMove, SecurityFileSize, SecurityPathResult } from '@interfaces/index'
 import { dirname } from 'node:path'
 import { rename, mkdir } from 'node:fs/promises'
-import type { SchemaFileMove, SecurityFileSize, SecurityPathResult } from '@interfaces/index'
 import { getSafePath, validateFileSize } from '@core/security/index'
 
 /**

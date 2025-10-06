@@ -1,5 +1,5 @@
-import { unlink } from 'node:fs/promises'
 import type { SchemaFileDelete, SecurityPathResult } from '@interfaces/index'
+import { unlink } from 'node:fs/promises'
 import { getSafePath } from '@core/security/index'
 
 /**

@@ -1,7 +1,7 @@
+import type { SchemaGrepSearch, SecurityPathResult } from '@interfaces/index'
 import { exec } from 'node:child_process'
 import { promisify } from 'node:util'
 import { relative } from 'node:path'
-import type { SchemaGrepSearch, SecurityPathResult } from '@interfaces/index'
 import { getSafePath } from '@core/security/index'
 import { resolveRipgrepPath } from '@utils/Ripgrep'
 

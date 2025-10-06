@@ -1,6 +1,7 @@
 import type { ToolCall } from '@neabyte/ollama-native'
 import DirectoryCreate from '@schemas/DirectoryCreate'
 import DirectoryList from '@schemas/DirectoryList'
+import DirectoryMove from '@schemas/DirectoryMove'
 import FileCreate from '@schemas/FileCreate'
 import FileDelete from '@schemas/FileDelete'
 import FileEdit from '@schemas/FileEdit'
@@ -19,6 +20,7 @@ import WebFetch from '@schemas/WebFetch'
 export default [
   DirectoryCreate as ToolCall,
   DirectoryList as ToolCall,
+  DirectoryMove as ToolCall,
   FileCreate as ToolCall,
   FileDelete as ToolCall,
   FileEdit as ToolCall,

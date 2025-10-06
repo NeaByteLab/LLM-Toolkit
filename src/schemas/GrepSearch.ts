@@ -7,7 +7,7 @@ export default {
   function: {
     name: 'GrepSearch',
     description:
-      'Use this tool to search for text content within files using Ripgrep. Provides fast text search with regex support, file filtering, and context lines.',
+      'Search for text content within files using Ripgrep. Provides fast text search with regex support, file filtering, and context lines. Fails if working directory does not exist or insufficient permissions.',
     parameters: {
       type: 'object',
       properties: {
@@ -19,7 +19,7 @@ export default {
         workingDir: {
           type: 'string',
           description:
-            'The working directory to search from. If not specified, uses the project root directory. Must be within the project directory.'
+            'The working directory to search from. If not specified, uses the project root directory. Use absolute paths for clarity, relative paths are also supported.'
         },
         fileTypes: {
           type: 'array',

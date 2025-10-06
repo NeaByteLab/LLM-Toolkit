@@ -1,6 +1,6 @@
+import type { SchemaTerminalCmd, SecurityPathResult } from '@interfaces/index'
 import { exec } from 'node:child_process'
 import { promisify } from 'node:util'
-import type { SchemaTerminalCmd, SecurityPathResult } from '@interfaces/index'
 import { getSafePath } from '@core/security/index'
 import { dangerousCommands } from '@core/security/Constant'
 

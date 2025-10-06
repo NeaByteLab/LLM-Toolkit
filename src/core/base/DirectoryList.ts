@@ -1,7 +1,7 @@
+import type { SchemaDirectoryList, SecurityPathResult } from '@interfaces/index'
 import type { Stats } from 'node:fs'
 import { readFile, readdir, readlink, stat } from 'node:fs/promises'
 import { join, dirname } from 'node:path'
-import type { SchemaDirectoryList, SecurityPathResult } from '@interfaces/index'
 import { getSafePath } from '@core/security/index'
 
 /**

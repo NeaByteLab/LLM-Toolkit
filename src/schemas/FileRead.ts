@@ -7,14 +7,14 @@ export default {
   function: {
     name: 'FileRead',
     description:
-      'Use this tool to read file contents. Supports reading entire files or specific line ranges. Useful for examining code, config files, or any text-based files before making modifications.',
+      'Read file contents. Supports reading entire files or specific line ranges. Fails if file does not exist or insufficient permissions.',
     parameters: {
       type: 'object',
       properties: {
         filePath: {
           type: 'string',
           description:
-            'The path to the file to read. RECOMMENDED: Use absolute paths for clarity (e.g., "/full/path/to/file.ts"). ACCEPTED: Relative paths are also supported (e.g., "examples/Calculator.ts" or "src/index.ts").'
+            'The file path to read. Use absolute paths for clarity, relative paths are also supported.'
         },
         lineStart: {
           type: 'number',

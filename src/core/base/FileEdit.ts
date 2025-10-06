@@ -1,6 +1,6 @@
-import { readFile } from 'node:fs/promises'
-import { existsSync, createWriteStream, type WriteStream } from 'node:fs'
 import type { SchemaFileEdit, SecurityPathResult } from '@interfaces/index'
+import { existsSync, createWriteStream, type WriteStream } from 'node:fs'
+import { readFile } from 'node:fs/promises'
 import { getSafePath } from '@core/security/index'
 
 /**

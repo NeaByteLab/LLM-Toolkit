@@ -19,6 +19,17 @@ export interface SchemaDirectoryList {
 }
 
 /**
+ * Schema for directory move operations.
+ * @description Defines the structure for directory move tool parameters.
+ */
+export interface SchemaDirectoryMove {
+  /** The current path of the directory to move */
+  oldPath: string
+  /** The new path where the directory should be moved to */
+  newPath: string
+}
+
+/**
  * Schema for file creation operations.
  * @description Defines the structure for file creation tool parameters.
  */

@@ -7,14 +7,14 @@ export default {
   function: {
     name: 'FileCreate',
     description:
-      'Use this tool to create a file with specified content. Creates a new file at the specified path and writes the provided content to it.\n\nIMPORTANT: Creates NEW files only. Fails if file already exists.',
+      'Create files with specified content. Writes new content to a new file at the specified path. Fails if file already exists.',
     parameters: {
       type: 'object',
       properties: {
         filePath: {
           type: 'string',
           description:
-            'The path where the new file should be created. RECOMMENDED: Use absolute paths for clarity (e.g., "/full/path/to/newfile.ts"). ACCEPTED: Relative paths are also supported (e.g., "examples/NewFile.ts" or "src/components/Component.tsx").'
+            'The file path to create. Use absolute paths for clarity, relative paths are also supported.'
         },
         content: {
           type: 'string',

@@ -7,19 +7,19 @@ export default {
   function: {
     name: 'FileMove',
     description:
-      'Use this tool to move a file from one location to another. This tool can move files between directories and rename them during the move operation.\n\nFILE MOVE OPERATIONS:\n- Moves files from one path to another\n- Can move files between different directories\n- Can rename files during the move operation\n- Preserves file content and permissions\n- Creates target directory if it doesn\'t exist',
+      'Move files from one location to another, can rename during move operation. Creates target directory if it does not exist. Fails if source does not exist, target already exists, or insufficient permissions.',
     parameters: {
       type: 'object',
       properties: {
         oldPath: {
           type: 'string',
           description:
-            'The current path of the file to move. Can be a relative or absolute path (e.g., "src/oldfile.ts" or "/path/to/oldfile.ts").'
+            'The current path of the file to move. Use absolute paths for clarity, relative paths are also supported.'
         },
         newPath: {
           type: 'string',
           description:
-            'The new path where the file should be moved to. Can be a relative or absolute path (e.g., "dist/newfile.ts" or "/path/to/newfile.ts").'
+            'The new path where the file should be moved to. Use absolute paths for clarity, relative paths are also supported.'
         }
       },
       required: ['oldPath', 'newPath']

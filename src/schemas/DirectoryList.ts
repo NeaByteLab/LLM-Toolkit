@@ -7,14 +7,14 @@ export default {
   function: {
     name: 'DirectoryList',
     description:
-      'Use this tool to list the contents of a directory. Lists files and subdirectories in the specified directory. Shows visual indicators: 📁 for directories, 📄 for files. Helps understand project structure before using other tools.',
+      'List directory contents with file type indicators. Shows files and subdirectories with size, line count, and item counts. Fails if directory does not exist or insufficient permissions.',
     parameters: {
       type: 'object',
       properties: {
         directoryPath: {
           type: 'string',
           description:
-            'The path to the directory to list. RECOMMENDED: Use absolute paths for clarity (e.g., "/full/path/to/directory"). ACCEPTED: Relative paths are also supported (e.g., "src", "examples", or "src/core").'
+            'The directory path to list. Use absolute paths for clarity, relative paths are also supported.'
         }
       },
       required: ['directoryPath']

@@ -1,5 +1,5 @@
-import fastGlob from 'fast-glob'
 import type { SchemaGlobSearch, SecurityPathResult } from '@interfaces/index'
+import fastGlob from 'fast-glob'
 import { getSafePath } from '@core/security/index'
 
 /**

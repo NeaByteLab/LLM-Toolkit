@@ -1,5 +1,5 @@
-import FetchClient, { FetchError } from '@neabyte/fetch'
 import type { SchemaWebFetch } from '@interfaces/index'
+import FetchClient, { FetchError } from '@neabyte/fetch'
 
 /**
  * Handles web fetching operations with HTML to Markdown conversion.

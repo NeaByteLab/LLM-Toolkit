@@ -7,7 +7,7 @@ export default {
   function: {
     name: 'WebFetch',
     description:
-      'Fetch web pages and convert HTML content to Markdown format. Use this to get external documentation, API references, or research information. Returns clean, readable text content from websites.\n\nWHAT IT DOES:\n- Fetches web pages and converts HTML to Markdown\n- Returns clean, readable text content from websites\n- Perfect for getting external documentation and API references\n- Ideal for research and information gathering.',
+      'Fetch web pages and convert HTML content to Markdown format. Returns clean, readable text content from websites. Fails if URL is invalid, network error, or response is empty.',
     parameters: {
       type: 'object',
       properties: {

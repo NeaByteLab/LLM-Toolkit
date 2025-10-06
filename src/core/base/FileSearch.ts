@@ -1,6 +1,6 @@
+import type { SchemaFileSearch, SecurityPathResult } from '@interfaces/index'
 import { readdir, stat } from 'node:fs/promises'
 import { join, extname, relative } from 'node:path'
-import type { SchemaFileSearch, SecurityPathResult } from '@interfaces/index'
 import { getSafePath, isPathSafe } from '@core/security/index'
 
 /**

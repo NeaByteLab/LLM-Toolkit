@@ -7,19 +7,19 @@ export default {
   function: {
     name: 'FileEdit',
     description:
-      'Use this tool to propose a search and replace operation on an existing file.\n\nThe tool will replace ONE occurrence of old_string with new_string in the specified file.\n\nCRITICAL REQUIREMENTS FOR USING THIS TOOL:\n\n1. SPECIFICITY: The old_string MUST specifically identify the instance you want to change. This means:\n   - Include AT LEAST 3-5 lines of context BEFORE the change point\n   - Include AT LEAST 3-5 lines of context AFTER the change point\n   - Include all whitespace, indentation, and surrounding code exactly as it appears in the file\n\n2. SINGLE INSTANCE: This tool can only change ONE instance at a time. If you need to change multiple instances:\n   - Make separate calls to this tool for each instance\n   - Each call must specifically identify its instance using sufficient context\n\n3. VERIFICATION: Before using this tool:\n   - If multiple instances exist, gather enough context to uniquely identify each one\n   - Plan separate tool calls for each instance.',
+      'Edit existing files using search and replace operations. Replaces one occurrence of old_string with new_string. Requires exact text matching including whitespace and indentation. Fails if file does not exist or text not found.',
     parameters: {
       type: 'object',
       properties: {
         filePath: {
           type: 'string',
           description:
-            'The path to the file to modify. RECOMMENDED: Use absolute paths for clarity (e.g., "/full/path/to/file.ts"). ACCEPTED: Relative paths are also supported (e.g., "examples/Calculator.ts" or "src/index.ts").'
+            'The file path to modify. Use absolute paths for clarity, relative paths are also supported.'
         },
         oldString: {
           type: 'string',
           description:
-            'The exact text to find and replace in the file. Must match the file content precisely including all whitespace, indentation, and formatting. This text must appear only once in the file to ensure unique identification.'
+            'The exact text to find and replace in the file. Must match the file content precisely including all whitespace, indentation, and formatting. Include 3-5 lines of context before and after the change point to ensure unique identification. This text must appear only once in the file.'
         },
         newString: {
           type: 'string',

@@ -7,7 +7,7 @@ export default {
   function: {
     name: 'GlobSearch',
     description:
-      'Use this tool to search for files using glob patterns. This tool uses fast-glob for file matching with support for complex patterns, exclusions, and various options.\n\nGLOB PATTERNS:\n- `**` - Matches any number of directories\n- `*` - Matches any characters except path separators\n- `?` - Matches a single character\n- `!` - Excludes files matching the pattern\n- `{a,b}` - Matches a or b\n- `[abc]` - Matches any character in brackets\n\nCOMMON PATTERNS:\n- `src/**/*.ts` - All TypeScript files in src directory\n- `**/*.{js,ts}` - All JavaScript and TypeScript files\n- `!**/*.test.*` - Exclude all test files\n- `!node_modules/**` - Exclude node_modules directory.',
+      'Search for files using glob patterns. Uses fast-glob for file matching with support for complex patterns, exclusions, and various options. Fails if working directory does not exist or insufficient permissions.',
     parameters: {
       type: 'object',
       properties: {
@@ -23,7 +23,7 @@ export default {
         workingDir: {
           type: 'string',
           description:
-            'The working directory to search from. If not specified, uses the project root directory. Must be within the project directory.'
+            'The working directory to search from. If not specified, uses the project root directory. Use absolute paths for clarity, relative paths are also supported.'
         },
         caseSensitive: {
           type: 'boolean',

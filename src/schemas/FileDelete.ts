@@ -7,14 +7,14 @@ export default {
   function: {
     name: 'FileDelete',
     description:
-      'Use this tool to delete a file from the filesystem. This operation permanently removes the file and cannot be undone.\n\nIMPORTANT: This tool deletes files permanently. Use with extreme caution as deleted files cannot be recovered.',
+      'Delete files from the filesystem. Permanently removes files and cannot be undone. Fails if file does not exist or insufficient permissions.',
     parameters: {
       type: 'object',
       properties: {
         filePath: {
           type: 'string',
           description:
-            'The path to the file to delete. RECOMMENDED: Use absolute paths for clarity (e.g., "/full/path/to/file.ts"). ACCEPTED: Relative paths are also supported (e.g., "src/file.ts" or "examples/test.txt").'
+            'The file path to delete. Use absolute paths for clarity, relative paths are also supported.'
         }
       },
       required: ['filePath']

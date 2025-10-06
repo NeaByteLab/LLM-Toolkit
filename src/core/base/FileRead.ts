@@ -1,5 +1,5 @@
-import { readFile } from 'node:fs/promises'
 import type { SchemaFileRead, SecurityFileSize, SecurityPathResult } from '@interfaces/index'
+import { readFile } from 'node:fs/promises'
 import { getSafePath, validateFileSize } from '@core/security/index'
 
 /**

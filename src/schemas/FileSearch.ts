@@ -7,7 +7,7 @@ export default {
   function: {
     name: 'FileSearch',
     description:
-      'Use this tool to search for files using fuzzy filename matching. Finds files by partial name, extension, or pattern with relevance scoring when you know part of a filename but not the exact path.',
+      'Search for files using fuzzy filename matching. Finds files by partial name, extension, or pattern with relevance scoring when you know part of a filename but not the exact path.',
     parameters: {
       type: 'object',
       properties: {

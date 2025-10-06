@@ -1,6 +1,7 @@
 import type {
   SchemaDirectoryCreate,
   SchemaDirectoryList,
+  SchemaDirectoryMove,
   SchemaFileCreate,
   SchemaFileDelete,
   SchemaFileEdit,
@@ -14,6 +15,7 @@ import type {
 } from '@root/interfaces/index'
 import DirectoryCreate from '@core/base/DirectoryCreate'
 import DirectoryList from '@core/base/DirectoryList'
+import DirectoryMove from '@core/base/DirectoryMove'
 import FileCreate from '@core/base/FileCreate'
 import FileDelete from '@core/base/FileDelete'
 import FileEdit from '@core/base/FileEdit'
@@ -43,6 +45,8 @@ export class ToolExecutor {
         return new DirectoryCreate(args as SchemaDirectoryCreate).execute()
       case 'DirectoryList':
         return new DirectoryList(args as SchemaDirectoryList).execute()
+      case 'DirectoryMove':
+        return new DirectoryMove(args as SchemaDirectoryMove).execute()
       case 'FileCreate':
         return new FileCreate(args as SchemaFileCreate).execute()
       case 'FileDelete':
